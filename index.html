@@ -1,11 +1,156 @@
-<html><head>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#3d4953">
+<link rel="apple-touch-icon" href="./images/icons/icon-192x192.png">
+<meta name="apple-mobile-web-app-status-bar" content="#3d4953">
+<title>График работы</title>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-<style type="text/css">
+html,
+body {
+  color: #444;
+  font-family: 'Helvetica', 'Verdana', sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  align-content: stretch;
+  align-items: stretch;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+/**
+ * Header
+ */
+
+.header {
+  align-content: center;
+  align-items: stretch;
+  background: #3d4953;
+  box-shadow:
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 2px 9px 1px rgba(0, 0, 0, 0.12),
+    0 4px 2px -2px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-size: 20px;
+  height: 56px;
+  justify-content: flex-start;
+  padding: 16px 16px 0 16px;
+  position: fixed;
+  transition: transform 0.233s cubic-bezier(0, 0, 0.21, 1) 0.1s;
+  width: 100%;
+  will-change: transform;
+  z-index: 1000;
+}
+
+.header h1 {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.header button {
+  border: none;
+  cursor: pointer;
+  height: 24px;
+  margin-right: 16px;
+  opacity: 0.54;
+  outline: none;
+  overflow: hidden;
+  text-indent: -30000px;
+  transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+  width: 24px;
+}
+
+.header #butRefresh {
+  background: url(/images/refresh.svg) center center no-repeat;
+}
+
+.header #butInstall {
+  background: url(/images/install.svg) center center no-repeat;
+}
+
+.header .powered-by {
+  color: white;
+  font-size: 0.6em;
+  text-decoration: none;
+}
+.main {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 60px;
+}
+
+
+
+/*body {
+  background: #fff;
+  /*color: #363269;
+  font-weight: 300;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: tahoma, Helvetica neue, roboto;
+}*/
+
+svg {
+  width: 100%;
+}
+select {
+  font-size: 18pt;
+  margin: 5px;
+}
+
+  /*font: monospace;
+  line-height: 1.2em;
+  font-size: 15px;
+  text-align: center;
+}
+
+/*#calendar tbody td {
+  color: rgb(44, 86, 122);
+}*/
+
+
+
+
+
+
+/*мои*/
+
 #background {
-  fill: #aaf0f0;
+  fill: hsl(216, 12.2%, 92%);
 }
 #rectmonthname {
-  fill: #f0f0f0;
+  fill: hsl(216, 12.2%, 97%);
 }
 #textmonthname {
   font-weight: bold;
@@ -17,13 +162,13 @@
   stroke: #fff; stroke-width: 4;
 }
 .y {
-  fill: #ffeb3b;
+  fill: hsl(55, 100%, 72%);
 }
 .r {
-  fill: #ff6363;
+  fill: hsl(0, 100%, 72%);
 }
 .g {
-  fill: #4caf50;
+  fill: hsl(135, 100%, 72%);
 }
 .e {
   fill: #ffffff00;
@@ -38,135 +183,213 @@
   font-weight: bold;
 }
 </style>
+</head>
+<body translate="no">
+<header class="header">
+<h1>График работы</h1>
+<button id="butInstall" aria-label="Install" hidden=""></button>
+<button id="butRefresh" aria-label="Refresh"></button>
+</header>
+<center>
+<main class="main">
+<form name="sel">
+<select name="month">
+<option value="0">Январь</option>
+<option value="1">Февраль</option>
+<option value="2">Март</option>
+<option value="3">Апрель</option>
+<option value="4">Май</option>
+<option value="5">Июнь</option>
+<option value="6">Июль</option>
+<option value="7">Август</option>
+<option value="8">Сентябрь</option>
+<option value="9">Октябрь</option>
+<option value="10">Ноябрь</option>
+<option value="11">Декабрь</option>
+</select>
+<select name="year">
+<option value="0">2015</option>
+<option value="1">2016</option>
+<option value="2">2017</option>
+<option value="3">2018</option>
+<option value="4">2019</option>
+<option value="5">2020</option>
+<option value="6">2021</option>
+<option value="7">2022</option>
+<option value="8">2023</option>
+<option value="9">2024</option>
+<option value="10">2025</option>
+</select>
+<select name="team">
 
-</head><body>
-
-<div>
-
-
-<svg width="100mm" height="100mm" viewBox="0 0 100 100" version="1.1" id="main">
-  
-  
-  
-  <g id="layer" style="display:inline" transform="translate(0,-197)">
-    
-    <rect id="background" width="98" height="98" x="1" y="198" ry="2" rx="2"></rect>
-    
-	<rect id="rectmonthname" width="92" height="9" x="4" y="201" rx="1.3" ry="1.3"></rect>
-    <text id="textmonthname" x="7" y="208" >2020, Март</text>
-	
-	
-	
-    
-    <g transform="matrix(0.3,0,0,0.3,6,213)" id="g1">
-      <rect class="e" width="30" height="30" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day textdayofweek">пн</text>
-      </svg>
-    </g>
-	
-	<!-- x+rx 6+13+13+13+13+13 -->
-	<g transform="matrix(0.3,0,0,0.3,19,213)" id="g2">
-      <rect class="e" width="30" height="30" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day textdayofweek">вт</text>
-      </svg>
-    </g>
-	
-	
-	<!-- y+ry 213+14 +11+11+11+11 -->
-	<g transform="matrix(0.3,0,0,0.3,6,227)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="r" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">1</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,6,238)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="y" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">8</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,6,249)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="g" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">15</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,6,260)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="e" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">22</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,6,271)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="e" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">29</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,6,282)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="r" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">36</text>
-      </svg>
-    </g>
-	
-	
-	
-	<g transform="matrix(0.3,0,0,0.3,19,227)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="r" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">2</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,19,238)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="y" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">9</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,19,249)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="g" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">16</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,19,260)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="e" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">23</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,19,271)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="e" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">30</text>
-      </svg>
-    </g>
-	
-	<g transform="matrix(0.3,0,0,0.3,19,282)" id="g1">
-      <rect rx="5" ry="5" width="30" height="30" class="r" ></rect>
-      <svg width="30" height="30" version="1.1">
-        <text x="50%" y="57%" alignment-baseline="middle" class="day">37</text>
-      </svg>
-    </g>
-	
-  </g>
+<option value="6">А смена (новая)</option>
+<option value="7">Б смена (новая)</option>
+<option value="9">В смена (новая)</option>
+<option value="8">Г смена (новая)</option>
+</select>
+<svg width="100mm" height="100mm" viewBox="0 0 100 100" version="1.1" id="calendar">
+<g id="calendarlayer">
 </svg>
+</form>
+</main>
+</center>
+<script id="rendered-js">
+function getDay(date) {
+  let day = date.getDay()
+  if (day == 0) day = 7
+  return day - 1
+}
 
+function getDateInt(date) {
+  let rez = date.getTime()
+  rez = rez / 86400000 //1000*60*60*24
+  return Math.floor(rez) + 1
+}
 
-</div>
+function isNowDay(date) {
+  var now = new Date()
 
+  var y1 = now.getFullYear()
+  var y2 = date.getFullYear()
+  var m1 = now.getMonth()
+  var m2 = date.getMonth()
+  var d1 = now.getDate()
+  var d2 = date.getDate()
+  if (y1 == y2 && m1 == m2 && d1 == d2) {
+    return true
+  }
+  return false
+}
 
+String.prototype.firstLetterCaps = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1)
+}
 
-</body></html>
+function item(x, y, text, rectStyle, isWeekOfDay = false) {
+  var style = isWeekOfDay ? 'textdayofweek' : ''
+  let rez = '<g transform="matrix(0.3,0,0,0.3,' + x + ',' + y + ')" id="g">'
+  rez += '    <rect rx="5" ry="5" class="' + rectStyle + '" width="30" height="30" ></rect>'
+  rez += '    <svg width="30" height="30" version="1.1">'
+  rez +=
+    '      <text x="50%" y="57%" alignment-baseline="middle" class="day ' +
+    style +
+    '">' +
+    text +
+    '</text>'
+  rez += '    </svg>'
+  rez += '  </g>'
+  return rez
+}
+
+function createCalendar(elem, year, mon, team) {
+  //let mon = month - 1 // месяцы в JS идут от 0 до 11, а не от 1 до 12
+  let d = new Date(year, mon)
+
+  let table =
+    '<g id="calendarlayer" style="display:inline" transform="translate(0,-197)">'
+  table +=
+    '<rect id="background" width="98" height="98" x="1" y="198" ry="2" rx="2">'
+  table +=
+    '</rect><rect id="rectmonthname" width="92" height="9" x="4" y="201" rx="1.3" ry="1.3"></rect>'
+  table +=
+    '<text id="textmonthname" x="7" y="208" >' +
+    d
+      .toLocaleString('ru', { month: 'long', year: 'numeric' })
+      .firstLetterCaps() +
+    '</text>'
+
+  var arrDayOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+  px = 6
+  y = 213
+  for (let i = 0; i < 7; i++) {
+    table += item(px, y, arrDayOfWeek[i], 'e', true)
+    px = px + 13
+  }
+
+  // пробелы для первого ряда
+  // с понедельника до первого дня месяца
+  // * * * 1  2  3  4
+  px = 6
+  py = 227
+  for (let i = 0; i < getDay(d); i++) {
+    px = px + 13
+  }
+
+  index = 0
+  unixday = getDateInt(d)
+  // <td> ячейки календаря с датами
+  while (d.getMonth() == mon) {
+    let style = 'e'
+    if (team < 4) {
+    } else if (team >= 4 && team <= 5) {
+    } else {
+      let caseSwitch = (unixday + (index - 2) - 3 * (team - 5)) % 4
+      switch (caseSwitch) {
+        case 1:
+          style = 'r'
+          break
+         case 2:
+          style = 'y'
+          break
+      }
+    }
+    if (isNowDay(d)) {
+      style += ' now'
+    }
+    table += item(px, py, d.getDate(), style)
+    px = px + 13
+
+    if (getDay(d) % 7 == 6) {
+      // вс, последний день - перевод строки
+      py = py + 11
+      px = 6
+    }
+
+    d.setDate(d.getDate() + 1)
+    index++
+  }
+
+  // закрыть таблицу
+  table += '</g>'
+
+  elem.innerHTML = table
+}
+
+function ChangeValue() {
+  var form = document.forms.sel
+  var monthElem = form.elements.month
+  var yearElem = form.elements.year
+  var teamElem = form.elements.team
+  createCalendar(
+    calendar,
+    parseInt(yearElem.value) + 2015,
+    parseInt(monthElem.value),
+    parseInt(teamElem.value)
+  )
+}
+
+var form = document.forms.sel
+var monthElem = form.elements.month
+var yearElem = form.elements.year
+var teamElem = form.elements.team
+var curMonth = new Date().getMonth()
+var curYear = new Date().getFullYear()
+var curTeam = 8
+teamElem.value = curTeam
+monthElem.value = curMonth
+yearElem.value = curYear - 2015
+
+createCalendar(calendarlayer, curYear, curMonth, curTeam)
+
+monthElem.onchange = function onchangeMonth() {
+  ChangeValue()
+}
+yearElem.onchange = function onchangeYear() {
+  ChangeValue()
+}
+teamElem.onchange = function onchangeTeam() {
+  ChangeValue()
+}
+    </script>
+</body>
+</html>
