@@ -1,11 +1,11 @@
 {
-  "name": "VTZ Calendar",
-  "short_name": "Schedule",
+  "name": "График работы",
+  "short_name": "График работы",
   "theme_color": "#3d4953",
-  "background_color": "#ffffff",
+  "background_color": "#3d4953",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": ".",
+  "start_url": "/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
