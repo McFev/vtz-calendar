@@ -1,15 +1,12 @@
-const staticCacheName = 'static-cache-v0';
-const dynamicCacheName = 'dynamic-cache-v0';
+const staticCacheName = 'static-cache-v0_';
+const dynamicCacheName = 'dynamic-cache-v0_';
 
 const staticAssets = [
     './',
     './index.html',
     './images/icons/icon-128x128.png',
     './images/icons/icon-192x192.png',
-    './offline.html',
-    './css/main.css',
     './js/app.js',
-    './js/main.js',
     './images/no-image.jpg'
 ];
 
