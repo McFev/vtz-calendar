@@ -1,8 +1,8 @@
 {
   "name": "График работы",
   "short_name": "График работы",
-  "theme_color": "#3d4953",
-  "background_color": "#3d4953",
+  "theme_color": "#fdbe3f",
+  "background_color": "#fdbe3f",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "https://mcfev.github.io/vtz-calendar/",
