@@ -1,5 +1,5 @@
-const staticCacheName = 'static-cache-v0__0';
-const dynamicCacheName = 'dynamic-cache-v0__0';
+const staticCacheName = 'static-cache-v1_0';
+const dynamicCacheName = 'dynamic-cache-v1_0';
 
 const staticAssets = [
     './',
@@ -7,7 +7,12 @@ const staticAssets = [
     './images/icons/icon-128x128.png',
     './images/icons/icon-192x192.png',
     './js/app.js',
-    './images/no-image.jpg'
+    './images/no-image.jpg',
+    './images/refresh.svg',
+    './images/install.svg',
+    './images/today.svg',
+    './images/day.svg',
+    './images/night.svg'
 ];
 
 self.addEventListener('install', async event => {
