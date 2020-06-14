@@ -4,11 +4,84 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#fdbe3f">
+<meta name="theme-color" content="#3d4953">
 <link rel="apple-touch-icon" href="./images/icons/icon-192x192.png">
-<meta name="apple-mobile-web-app-status-bar" content="#fdbe3f">
+<meta name="apple-mobile-web-app-status-bar" content="#3d4953">
 <title>График работы</title>
+<script>
+if(localStorage.theme == "night") {
+  document.documentElement.setAttribute("theme", "dark");
+}
+else {
+  document.documentElement.removeAttribute("theme");
+}
+</script>
+
 <style>
+/*переменные для темы*/
+:root {
+  --text-color: #000;
+  --back-color: #fff;
+  
+  --head-color: hsl(196, 91%, 8%);
+  --head-textcolor: #fff;
+  --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/night.svg) center center no-repeat;
+  
+  --svg-background: hsl(216, 12.2%, 92%);
+  --svg-rectmonthname: hsl(216, 12.2%, 97%);
+  --svg-y-fill: hsl(55, 100%, 72%);
+  --svg-r-fill: hsl(0, 100%, 72%);
+  --svg-g-fill: hsl(135, 100%, 72%);
+  --svg-text-color: #000;
+  --svg-day-now: #fff;
+  
+  
+  
+  
+  --dropdown-select-option-background: #f2f2f2;
+  --dropdown-select-option-text-shadow: none;
+  --dropdown-select-focus-color: #394349;
+  --dropdown-select-color: #62717a;
+  --dropdown-select-text-shadow: 0 1px white;
+  --dropdown-select-background: #f2f2f2; /* Fallback for IE 8 */
+  --dropdown-before-after-border-bottom-color: #888;
+  --dropdown-background: #f2f2f2;
+  --dropdown-border-color: white #f7f7f7 whitesmoke;
+  --dropdown-background-gradient: rgba(0, 0, 0, 0.06);
+  --dropdown--webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  --dropdown-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+:root[theme='dark'] {
+  --text-color: #fff;
+  --back-color: #000;
+  
+  --head-color: hsl(196, 91%, 8%);
+  --head-textcolor: #fff;
+  --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/day.svg) center center no-repeat;
+  
+  --svg-background: hsl(216, 12.2%, 10%);
+  --svg-rectmonthname: hsl(216, 12.2%, 5%);
+  --svg-y-fill: hsl(55, 100%, 20%);
+  --svg-r-fill: hsl(0, 100%, 20%);
+  --svg-g-fill: hsl(135, 100%, 20%);
+  --svg-text-color: #aaa;
+  --svg-day-now: #aaa;
+  
+  --dropdown-select-option-background: #444;
+  --dropdown-select-option-text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+  --dropdown-select-focus-color: #ccc;
+  --dropdown-select-color: #aaa;
+  --dropdown-select-text-shadow: 0 1px black;
+  --dropdown-select-background: #444;  /* Fallback for IE 8 */
+  --dropdown-before-after-border-bottom-color: #aaa;
+  --dropdown-background: #444;
+  --dropdown-border-color: #111111 #0a0a0a black;
+  --dropdown-background-gradient: rgba(0, 0, 0, 0.4);
+  --dropdown--webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+  --dropdown-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -32,7 +105,7 @@ html {
 body {
   align-content: stretch;
   align-items: stretch;
-  background: #fff;
+  background: var(--back-color);
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -46,12 +119,12 @@ body {
 .header {
   align-content: center;
   align-items: stretch;
-  background: #fdbe3f;
+  background: var(--head-color);
   box-shadow:
     0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 2px 9px 1px rgba(0, 0, 0, 0.12),
     0 4px 2px -2px rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: var(--head-textcolor);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -87,11 +160,21 @@ body {
 }
 
 .header #butRefresh {
-  background: url(./images/refresh.svg) center center no-repeat;
+  background: url(https://mcfev.github.io/vtz-calendar/images/refresh.svg) center center no-repeat;
 }
 
 .header #butInstall {
-  background: url(./images/install.svg) center center no-repeat;
+  background: url(https://mcfev.github.io/vtz-calendar/images/install.svg) center center no-repeat;
+}
+
+.header #butToday {
+  background: url(https://mcfev.github.io/vtz-calendar/images/today.svg) center center no-repeat;
+  background-size: 100% auto;
+}
+
+.header #butTheme {
+  background: var(--head-theme-image);
+  background-size: 100% auto;
 }
 
 .header .powered-by {
@@ -124,10 +207,10 @@ body {
 svg {
   width: 100%;
 }
-select {
+/*select {
   font-size: 18pt;
   margin: 5px;
-}
+}*/
 
   /*font: monospace;
   line-height: 1.2em;
@@ -147,28 +230,29 @@ select {
 /*мои*/
 
 #background {
-  fill: hsl(216, 12.2%, 92%);
+  fill: var(--svg-background);
 }
 #rectmonthname {
-  fill: hsl(216, 12.2%, 97%);
+  fill: var(--svg-rectmonthname);
 }
 #textmonthname {
   font-weight: bold;
   font-size: 7px;
   font-family: tahoma;
-  fill: #000;
+  fill: var(--svg-text-color);
 }
 .now {
-  stroke: #fff; stroke-width: 4;
+  stroke: var(--svg-day-now);
+  stroke-width: 4;
 }
 .y {
-  fill: hsl(55, 100%, 72%);
+  fill: var(--svg-y-fill);
 }
 .r {
-  fill: hsl(0, 100%, 72%);
+  fill: var(--svg-r-fill);
 }
 .g {
-  fill: hsl(135, 100%, 72%);
+  fill: var(--svg-g-fill);
 }
 .e {
   fill: #ffffff00;
@@ -176,11 +260,138 @@ select {
 .day {
   font-family: tahoma;
   text-anchor: middle;
-  stroke: #000;
+  stroke: var(--svg-text-color);
   stroke-width: 0.2;
+  fill: var(--svg-text-color);
 }
 .textdayofweek {
   font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+.container {
+  margin: 5px auto;
+  /*margin: 80px auto;
+  width: 400px;*/
+  text-align: center;
+}
+
+.container > .dropdown {
+  margin: 0 20px;
+  vertical-align: top;
+}
+
+/* Fix for IE 8 putting the arrows behind the select element. */
+
+.lt-ie9 .dropdown {
+  z-index: 1;
+}
+
+.lt-ie9 .dropdown-select {
+  z-index: -1;
+}
+
+.lt-ie9 .dropdown-select:focus {
+  z-index: 3;
+}
+
+/* Dirty fix for Firefox adding padding where it shouldn't. */
+
+@-moz-document url-prefix() {
+  .dropdown-select {
+    padding-left: 6px;
+  }
+}
+
+
+
+
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 28px;
+  width: 100px;
+  background: var(--dropdown-background);
+  border: 1px solid;
+  border-color: var(--dropdown-border-color);
+  border-radius: 3px;
+  background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
+  -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
+  box-shadow: var(--dropdown-box-shadow);
+}
+
+.dropdown:before, .dropdown:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 4px dashed;
+  border-color: #888888 transparent;
+  pointer-events: none;
+  border-bottom-color: var(--dropdown-before-after-border-bottom-color);
+}
+
+.dropdown:before {
+  border-bottom-style: solid;
+  border-top: none;
+}
+
+.dropdown:after {
+  margin-top: 7px;
+  border-top-style: solid;
+  border-bottom: none;
+}
+
+.dropdown-select {
+  position: relative;
+  width: 130%;
+  margin: 0;
+  padding: 6px 8px 6px 10px;
+  height: 28px;
+  line-height: 14px;
+  font-size: 14px;
+  color: var(--dropdown-select-color);
+  text-shadow: var(--dropdown-select-text-shadow);
+  background: var(--dropdown-select-background);
+  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.dropdown-select:focus {
+  z-index: 3;
+  width: 100%;
+  color: var(--dropdown-select-focus-color);
+  /*outline: 2px solid #49aff2;
+  outline: 2px solid -webkit-focus-ring-color;
+  outline-offset: -2px;*/
+  outline: 0px;
+  outline-offset: 0px;
+}
+
+.dropdown-select > option {
+  margin: 3px;
+  padding: 6px 8px;
+  text-shadow: var(--dropdown-select-option-text-shadow);
+  background: var(--dropdown-select-option-background);
+  border-radius: 3px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -188,12 +399,16 @@ select {
 <header class="header">
 <h1>График работы</h1>
 <button id="butInstall" aria-label="Install" hidden=""></button>
-<button id="butRefresh" aria-label="Refresh"></button>
+<button id="butRefresh" aria-label="Refresh" hidden=""></button>
+<button id="butToday" aria-label="Today"></button>
+<button id="butTheme" aria-label="Theme"></button>
 </header>
 <center>
 <main class="main">
 <form name="sel">
-<select name="month">
+<div class="container">
+<div class="dropdown">
+<select name="month" class="dropdown-select">
 <option value="0">Январь</option>
 <option value="1">Февраль</option>
 <option value="2">Март</option>
@@ -207,7 +422,9 @@ select {
 <option value="10">Ноябрь</option>
 <option value="11">Декабрь</option>
 </select>
-<select name="year">
+</div>
+<div class="dropdown">
+<select name="year" class="dropdown-select">
 <option value="0">2015</option>
 <option value="1">2016</option>
 <option value="2">2017</option>
@@ -220,20 +437,25 @@ select {
 <option value="9">2024</option>
 <option value="10">2025</option>
 </select>
-<select name="team">
+</div>
+</div>
+<div class="container">
+<div class="dropdown" style="width: 150px;">
+<select name="team" class="dropdown-select">
 
 <option value="6">А смена (новая)</option>
 <option value="7">Б смена (новая)</option>
 <option value="9">В смена (новая)</option>
 <option value="8">Г смена (новая)</option>
 </select>
+</div>
+</div>
 <svg width="100mm" height="100mm" viewBox="0 0 100 100" version="1.1" id="calendar">
 <g id="calendarlayer">
 </svg>
 </form>
 </main>
 </center>
-<script src="./js/app.js"></script>
 <script id="rendered-js">
 function getDay(date) {
   let day = date.getDay()
@@ -361,13 +583,16 @@ function ChangeValue() {
   var monthElem = form.elements.month
   var yearElem = form.elements.year
   var teamElem = form.elements.team
+  var teamValue = parseInt(teamElem.value)
   createCalendar(
     calendar,
     parseInt(yearElem.value) + 2015,
     parseInt(monthElem.value),
-    parseInt(teamElem.value)
+    teamValue
   )
+  localStorage.team = teamValue
 }
+
 
 var form = document.forms.sel
 var monthElem = form.elements.month
@@ -375,10 +600,11 @@ var yearElem = form.elements.year
 var teamElem = form.elements.team
 var curMonth = new Date().getMonth()
 var curYear = new Date().getFullYear()
-var curTeam = 8
+var curTeam = localStorage.team
 teamElem.value = curTeam
 monthElem.value = curMonth
 yearElem.value = curYear - 2015
+
 
 createCalendar(calendarlayer, curYear, curMonth, curTeam)
 
@@ -391,6 +617,18 @@ yearElem.onchange = function onchangeYear() {
 teamElem.onchange = function onchangeTeam() {
   ChangeValue()
 }
+
+const butTheme = document.querySelector("#butTheme");
+butTheme.addEventListener("click", function() {
+    if(document.documentElement.hasAttribute("theme")){
+        document.documentElement.removeAttribute("theme")
+        localStorage.theme = "day"
+    }
+    else{
+        document.documentElement.setAttribute("theme", "dark")
+        localStorage.theme = "night"
+    }
+})
     </script>
 </body>
 </html>
