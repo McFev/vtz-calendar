@@ -630,6 +630,18 @@ butTheme.addEventListener("click", function() {
         localStorage.theme = "night"
     }
 })
+  
+const butToday = document.querySelector("#butToday");
+butToday.addEventListener("click", function() {
+    var form = document.forms.sel
+    var monthElem = form.elements.month
+    var yearElem = form.elements.year
+    var curMonth = new Date().getMonth()
+    var curYear = new Date().getFullYear()
+    monthElem.value = curMonth
+    yearElem.value = curYear - 2015
+    ChangeValue()
+})
     </script>
 </body>
 </html>
