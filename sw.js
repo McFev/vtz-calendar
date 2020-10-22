@@ -12,7 +12,8 @@ const staticAssets = [
     './images/install.svg',
     './images/today.svg',
     './images/day.svg',
-    './images/night.svg'
+    './images/night.svg',
+    './images/about.svg'
 ];
 
 self.addEventListener('install', async event => {
