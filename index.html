@@ -186,6 +186,11 @@ body {
   background: var(--head-theme-image);
   background-size: 100% auto;
 }
+  
+.header #butAbout {
+  background: url(https://mcfev.github.io/vtz-calendar/images/about.svg) center center no-repeat;
+  background-size: 100% auto;
+}
 
 .header .powered-by {
   color: white;
@@ -294,7 +299,7 @@ svg {
 }
 
 .container > .dropdown {
-  margin: 0 20px;
+  margin: 0 5px;
   vertical-align: top;
 }
 
@@ -403,6 +408,119 @@ svg {
   border-radius: 3px;
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+.dropdown_btn {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 28px;
+  width: 30px;
+  background: var(--dropdown-background);
+  border: 1px solid;
+  border-color: var(--dropdown-border-color);
+  border-radius: 3px;
+  background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+  background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
+  -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
+  box-shadow: var(--dropdown-box-shadow);
+}
+
+.dropdown_btn-select {
+  position: relative;
+  width: 130%;
+  margin: 0;
+  padding: 0px 8px 0px 0px;
+  height: 28px;
+  line-height: 14px;
+  font-size: 14px;
+  color: var(--dropdown-select-color);
+  text-shadow: var(--dropdown-select-text-shadow);
+  background: var(--dropdown-select-background);
+  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+
+/**
+ * Add dialog
+ */
+
+#addDialogContainer {
+  background: rgba(0, 0, 0, 0.57);
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+  width: 100%;
+  will-change: opacity;
+}
+
+#addDialogContainer.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dialog {
+  background: #fff;
+  border-radius: 2px;
+  box-shadow:
+    0 0 14px rgba(0, 0, 0, 0.24),
+    0 14px 28px rgba(0, 0, 0, 0.48);
+  left: 50%;
+  min-width: 280px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(30px);
+  transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+}
+
+.dialog > div {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.dialog-title {
+  font-size: 1.25em;
+  padding-top: 20px;
+}
+
+.dialog-body {
+  padding-bottom: 24px;
+  padding-top: 20px;
+  font-size: 0.9em;
+}
+
+.dialog-body select {
+  width: 100%;
+}
+
+.dialog-buttons {
+  float: right;
+  padding-bottom: 16px;
+  padding-right: 17px !important;
+}
+
+.dialog .button {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  text-transform: uppercase;
+}
 </style>
 </head>
 <body translate="no">
@@ -412,10 +530,14 @@ svg {
 <button id="butRefresh" aria-label="Refresh" hidden=""></button>
 <button id="butToday" aria-label="Today"></button>
 <button id="butTheme" aria-label="Theme"></button>
+<button id="butAbout" aria-label="About"></button>
 </header>
 <main class="main">
 <form name="sel">
 <div class="container">
+<div class="dropdown_btn">
+ <button type="button" class="dropdown_btn-select" id="MonthChangeBack" onClick="MonthChange_click(false)">&#9664;</button>
+</div>
 <div class="dropdown">
 <select name="month" class="dropdown-select">
 <option value="0">Январь</option>
@@ -447,6 +569,9 @@ svg {
 <option value="10">2025</option>
 </select>
 </div>
+<div class="dropdown_btn">
+ <button type="button" class="dropdown_btn-select" id="MonthChangeNext" onClick="MonthChange_click(true)">&#9654;</button>
+</div>
 </div>
 <div class="container">
 <div class="dropdown" style="width: 150px;">
@@ -459,6 +584,19 @@ svg {
 </select>
 </div>
 </div>
+<div id="addDialogContainer">
+      <div class="dialog">
+        <div class="dialog-title">О программе</div>
+        <div class="dialog-body">
+          <p>Производственный календарь по сменам Волжского Трубного Завода</p>
+          <p>Автор: Филатов Евгений</p>
+          <p>Помощь в развитии проекта: <a href="https://qiwi.com/n/MCFEV" target="_blank">Qiwi</a>, <a href="https://sobe.ru/na/vtz_calendar" target="_blank">Яндекс.Соберу</a></p>
+        </div>
+        <div class="dialog-buttons">
+          <button type="button" id="butDialogCancel" class="button">OK</button>
+        </div>
+      </div>
+    </div>
 <svg width="90mm" height="90mm" viewBox="0 0 100 100" version="1.1" id="calendar">
 <g id="calendarlayer">
 </g>
@@ -651,6 +789,57 @@ butToday.addEventListener("click", function() {
     yearElem.value = curYear - 2015
     ChangeValue()
 })
+
+function MonthChange_click(isNext)
+{
+    var form = document.forms.sel
+    var monthElem = form.elements.month
+    var yearElem = form.elements.year
+    var curMonth = parseInt(monthElem.value)
+    var curYear = parseInt(yearElem.value) + 2015
+    if(isNext)
+    {
+      curMonth = curMonth + 1
+    }
+    else
+    {
+      curMonth = curMonth - 1
+    }
+    if(curMonth == -1)
+    {
+      curMonth = 11
+      if(curYear != 2015)
+      {
+        curYear = curYear - 1
+      }
+      else
+      {
+        curYear = 2025
+      }
+    }
+    if(curMonth == 12)
+    {
+      curMonth = 0
+      if(curYear != 2025)
+      {
+        curYear = curYear + 1
+      }
+      else
+      {
+        curYear = 2015
+      }
+    }
+    monthElem.value = curMonth
+    yearElem.value = curYear - 2015
+    ChangeValue()
+}
+
+document.getElementById("butAbout").addEventListener("click", toggleAddDialog);
+document.getElementById("butDialogCancel").addEventListener("click", toggleAddDialog);
+
+function toggleAddDialog() {  document.getElementById("addDialogContainer").classList.toggle("visible");
+}
+
     </script>
 </body>
 </html>
