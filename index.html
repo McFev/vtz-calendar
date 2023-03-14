@@ -576,7 +576,12 @@ svg {
 <div class="container">
 <div class="dropdown" style="width: 150px;">
 <select name="team" class="dropdown-select">
-
+<option value="1">А смена</option>
+<option value="0">Б смена</option>
+<option value="3">В смена</option>
+<option value="2">Г смена</option>
+<option value="4">Д1 смена</option>
+<option value="5">Д2 смена</option>
 <option value="6">А смена (новая)</option>
 <option value="7">Б смена (новая)</option>
 <option value="9">В смена (новая)</option>
@@ -589,8 +594,9 @@ svg {
         <div class="dialog-title">О программе</div>
         <div class="dialog-body">
           <p>Производственный календарь по сменам Волжского Трубного Завода</p>
+          <p>Версия: 1.0.7</p>
           <p>Автор: Филатов Евгений</p>
-          <p>Помощь в развитии проекта: <a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, <a href="https://sobe.ru/na/vtz_calendar" target="_blank" rel="noreferrer">Яндекс.Соберу</a></p>
+          <p>Помощь в развитии проекта: <!--<a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, --> <a href="https://sobe.ru/na/vtz_calendar" target="_blank" rel="noreferrer">Яндекс.Соберу</a></p>
         </div>
         <div class="dialog-buttons">
           <button type="button" id="butDialogCancel" class="button">OK</button>
@@ -600,6 +606,22 @@ svg {
 <svg width="90mm" height="90mm" viewBox="0 0 100 100" version="1.1" id="calendar">
 <g id="calendarlayer">
 </g>
+</svg>
+<svg width="90mm" height="36mm" viewBox="0 0 100 40" version="1.1" id="legend">
+  <g id="legendlayer">
+    <g transform="matrix(0.3,0,0,0.3,2,2)" id="legendlayerR" style="display: block">
+      <rect rx="5" ry="5" class="r" width="30" height="30" ></rect>
+      <text x="125" y="50%" text-anchor="left" class="day ">— первая смена (утро)&nbsp;&nbsp;</text>
+    </g>
+    <g transform="matrix(0.3,0,0,0.3,2,14)" id="legendlayerY" style="display: block">
+      <rect rx="5" ry="5" class="y" width="30" height="30" ></rect>
+      <text x="125" y="50%" text-anchor="left" class="day ">— вторая смена (вечер)</text>
+    </g>
+    <g transform="matrix(0.3,0,0,0.3,2,26)" id="legendlayerG" style="display: block">
+      <rect rx="5" ry="5" class="g" width="30" height="30" ></rect>
+      <text x="125" y="50%" text-anchor="left" class="day ">— третья смена (ночь)&nbsp;&nbsp;</text>
+    </g>
+  </g>
 </svg>
 </form>
 </main>
@@ -692,7 +714,41 @@ function createCalendar(elem, year, mon, team) {
   while (d.getMonth() == mon) {
     let style = 'e'
     if (team < 4) {
+      let caseSwitch = (unixday + (index - 1) - 4 * team) % 16
+      switch (caseSwitch) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+          style = 'r'
+          break
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+          style = 'y'
+          break
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+          style = 'g'
+          break
+      }
+      document.getElementById('legendlayerR').style.display = 'block'
+      document.getElementById('legendlayerY').style.display = 'block'
+      document.getElementById('legendlayerG').style.display = 'block'
     } else if (team >= 4 && team <= 5) {
+      let caseSwitch = (unixday + (index - 2) - 2 * team) % 4
+      switch (caseSwitch) {
+        case 1:
+        case 2:
+          style = 'r'
+          break
+      }
+      document.getElementById('legendlayerR').style.display = 'block';
+      document.getElementById('legendlayerY').style.display = 'none';
+      document.getElementById('legendlayerG').style.display = 'none';
     } else {
       let caseSwitch = (unixday + (index - 2) - 3 * (team - 5)) % 4
       switch (caseSwitch) {
@@ -703,6 +759,9 @@ function createCalendar(elem, year, mon, team) {
           style = 'y'
           break
       }
+      document.getElementById('legendlayerR').style.display = 'block';
+      document.getElementById('legendlayerY').style.display = 'block';
+      document.getElementById('legendlayerG').style.display = 'none';
     }
     if (isNowDay(d)) {
       style += ' now'
