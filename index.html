@@ -568,17 +568,17 @@ svg {
 </div>
 <div class="dropdown">
 <select name="year" class="dropdown-select">
-<option value="0">2015</option>
-<option value="1">2016</option>
-<option value="2">2017</option>
-<option value="3">2018</option>
-<option value="4">2019</option>
-<option value="5">2020</option>
-<option value="6">2021</option>
-<option value="7">2022</option>
-<option value="8">2023</option>
-<option value="9">2024</option>
-<option value="10">2025</option>
+    <option value="0">2020</option>
+    <option value="1">2021</option>
+    <option value="2">2022</option>
+    <option value="3">2023</option>
+    <option value="4">2024</option>
+    <option value="5">2025</option>
+    <option value="6">2026</option>
+    <option value="7">2027</option>
+    <option value="8">2028</option>
+    <option value="9">2029</option>
+    <option value="10">2030</option>
 </select>
 </div>
 <div class="dropdown_btn">
@@ -606,7 +606,7 @@ svg {
         <div class="dialog-title">О программе</div>
         <div class="dialog-body">
           <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-          <p>Версия: 1.0.8</p>
+          <p>Версия: 1.0.9</p>
           <p>Автор: Филатов Евгений</p>
           <p>Помощь в развитии проекта: <!--<a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, --> <a href="https://sobe.ru/na/vtz_calendar" target="_blank" rel="noreferrer">Яндекс.Соберу</a></p>
         </div>
@@ -639,6 +639,11 @@ svg {
 </main>
 <script src="./js/app.js"></script>
 <script id="rendered-js">
+
+//todo переделать на генерацию +4 / -4 лет от текущего
+let minYear = 2020;
+let maxYear = 2030;
+
 function getDay(date) {
   let day = date.getDay()
   if (day == 0) day = 7
@@ -805,7 +810,7 @@ function ChangeValue() {
   var teamValue = parseInt(teamElem.value)
   createCalendar(
     calendar,
-    parseInt(yearElem.value) + 2015,
+    parseInt(yearElem.value) + minYear,
     parseInt(monthElem.value),
     teamValue
   )
@@ -822,7 +827,7 @@ var curYear = new Date().getFullYear()
 var curTeam = localStorage.team
 teamElem.value = curTeam
 monthElem.value = curMonth
-yearElem.value = curYear - 2015
+yearElem.value = curYear - minYear
 
 
 createCalendar(calendarlayer, curYear, curMonth, curTeam)
@@ -857,7 +862,7 @@ butToday.addEventListener("click", function() {
     var curMonth = new Date().getMonth()
     var curYear = new Date().getFullYear()
     monthElem.value = curMonth
-    yearElem.value = curYear - 2015
+    yearElem.value = curYear - minYear
     ChangeValue()
 })
 
@@ -867,7 +872,7 @@ function MonthChange_click(isNext)
     var monthElem = form.elements.month
     var yearElem = form.elements.year
     var curMonth = parseInt(monthElem.value)
-    var curYear = parseInt(yearElem.value) + 2015
+    var curYear = parseInt(yearElem.value) + minYear
     if(isNext)
     {
       curMonth = curMonth + 1
@@ -879,29 +884,29 @@ function MonthChange_click(isNext)
     if(curMonth == -1)
     {
       curMonth = 11
-      if(curYear != 2015)
+      if(curYear != minYear)
       {
         curYear = curYear - 1
       }
       else
       {
-        curYear = 2025
+        curYear = maxYear
       }
     }
     if(curMonth == 12)
     {
       curMonth = 0
-      if(curYear != 2025)
+      if(curYear != maxYear)
       {
         curYear = curYear + 1
       }
       else
       {
-        curYear = 2015
+        curYear = minYear
       }
     }
     monthElem.value = curMonth
-    yearElem.value = curYear - 2015
+    yearElem.value = curYear - minYear
     ChangeValue()
 }
 
