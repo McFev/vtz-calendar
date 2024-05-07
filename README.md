@@ -12,5 +12,7 @@
 * 15.05.2014 — переписана на java (первая мобильная версия для android)
 * 25.05.2020 — переписана на js (первая кроссплатформенная версия)
 
-## Скриншот
-![screenshot](https://github.com/McFev/vtz-calendar/assets/2652370/123d77ae-92f6-40bb-839d-40547ec454d7)
+## Скриншоты
+**светлая тема** | **тёмная тема**
+------------ | -------------
+ ![screenshot](https://github.com/McFev/vtz-calendar/assets/2652370/6a42c124-23b3-465e-b0a0-ec805683af1d) | ![screenshot_dark](https://github.com/McFev/vtz-calendar/assets/2652370/123d77ae-92f6-40bb-839d-40547ec454d7)
