@@ -1,224 +1,228 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#021d27">
-<link rel="apple-touch-icon" href="./images/icons/icon-180x180.png">
-<meta name="apple-mobile-web-app-status-bar" content="#021d27">
-<meta property="og:title" content="График работы">
-<meta property="og:description" content="Производственный календарь по сменам Волжского Трубного Завода">
-<meta property="og:image" content="https://mcfev.github.io/vtz-calendar/images/ogimage.jpg">
-<meta property="og:url" content="https://mcfev.github.io/vtz-calendar/">
-<meta property="og:locale" content="ru_RU">
-<meta property="og:type" content="product">
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-<link rel="mask-icon" href="./images/icons/safari-pinned-tab.svg" color="#021d27">
-<meta name="msapplication-TileColor" content="#021d27">
-<title>График работы</title>
-<script>
-//+значения при старте по умолчанию
-if (localStorage.theme == null) {
-  if (window.matchMedia('(prefers-color-scheme: dark)').media === 'not all') {
-    localStorage.theme = "day"
-  } else {
-    localStorage.theme = "night"
-  }
-}
-if(localStorage.team == null) {
-  localStorage.team = 6
-}
-//-значения при старте по умолчанию
-if(localStorage.theme == "night") {
-  document.documentElement.setAttribute("theme", "dark")
-}
-else {
-  document.documentElement.removeAttribute("theme")
-}
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user‑scalable=no">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#021d27">
+  <link rel="apple-touch-icon" href="./images/icons/icon-180x180.png">
+  <meta name="apple-mobile-web-app-status-bar" content="#021d27">
+  <meta property="og:title" content="График работы">
+  <meta property="og:description" content="Производственный календарь по сменам Волжского Трубного Завода">
+  <meta property="og:image" content="https://mcfev.github.io/vtz-calendar/images/ogimage.jpg">
+  <meta property="og:url" content="https://mcfev.github.io/vtz-calendar/">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:type" content="product">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="mask-icon" href="./images/icons/safari-pinned-tab.svg" color="#021d27">
+  <meta name="msapplication-TileColor" content="#021d27">
+  <title>График работы</title>
+  <script>
+    //+значения при старте по умолчанию
+    if (localStorage.theme == null) {
+      if (window.matchMedia('(prefers-color-scheme: dark)').media === 'not all') {
+        localStorage.theme = "day"
+      } else {
+        localStorage.theme = "night"
+      }
+    }
+    if (localStorage.team == null) {
+      localStorage.team = 6
+    }
+    //-значения при старте по умолчанию
+    if (localStorage.theme == "night") {
+      document.documentElement.setAttribute("theme", "dark")
+    }
+    else {
+      document.documentElement.removeAttribute("theme")
+    }
+  </script>
 
-<style>
-/*переменные для темы*/
-:root {
-  --text-color: #000;
-  --back-color: #fff;
-  
-  --head-color: hsl(196, 91%, 8%);
-  --head-textcolor: #fff;
-  --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/night.svg) center center no-repeat;
-  
-  --svg-background: hsl(216, 12.2%, 92%);
-  --svg-rectmonthname: hsl(216, 12.2%, 97%);
-  --svg-y-fill: hsl(37, 100%, 72%);
-  --svg-r-fill: hsl(0, 100%, 72%);
-  --svg-g-fill: hsl(135, 100%, 72%);
-  --svg-text-color: #000;
-  --svg-day-now: #fff;
-  
-  
-  
-  
-  --dropdown-select-option-background: #f2f2f2;
-  --dropdown-select-option-text-shadow: none;
-  --dropdown-select-focus-color: #394349;
-  --dropdown-select-color: #62717a;
-  --dropdown-select-text-shadow: 0 1px white;
-  --dropdown-select-background: #f2f2f2; /* Fallback for IE 8 */
-  --dropdown-before-after-border-bottom-color: #888;
-  --dropdown-background: #f2f2f2;
-  --dropdown-border-color: white #f7f7f7 whitesmoke;
-  --dropdown-background-gradient: rgba(0, 0, 0, 0.06);
-  --dropdown--webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-  --dropdown-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-}
+  <style>
+    /*переменные для темы*/
+    :root {
+      --text-color: #000;
+      --back-color: #fff;
 
-:root[theme='dark'] {
-  --text-color: #fff;
-  --back-color: #000;
-  
-  --head-color: hsl(196, 91%, 8%);
-  --head-textcolor: #fff;
-  --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/day.svg) center center no-repeat;
-  
-  --svg-background: hsl(216, 12.2%, 10%);
-  --svg-rectmonthname: hsl(216, 12.2%, 5%);
-  --svg-y-fill: hsl(37, 100%, 30%);
-  --svg-r-fill: hsl(0, 100%, 30%);
-  --svg-g-fill: hsl(135, 100%, 30%);
-  --svg-text-color: #aaa;
-  --svg-day-now: #aaa;
-  
-  --dropdown-select-option-background: #444;
-  --dropdown-select-option-text-shadow: 0 1px rgba(0, 0, 0, 0.4);
-  --dropdown-select-focus-color: #ccc;
-  --dropdown-select-color: #aaa;
-  --dropdown-select-text-shadow: 0 1px black;
-  --dropdown-select-background: #444;  /* Fallback for IE 8 */
-  --dropdown-before-after-border-bottom-color: #aaa;
-  --dropdown-background: #444;
-  --dropdown-border-color: #111111 #0a0a0a black;
-  --dropdown-background-gradient: rgba(0, 0, 0, 0.4);
-  --dropdown--webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
-  --dropdown-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
-}
+      --head-color: hsl(196, 91%, 8%);
+      --head-textcolor: #fff;
+      --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/night.svg) center center no-repeat;
 
-* {
-  box-sizing: border-box;
-}
+      --svg-background: hsl(216, 12.2%, 92%);
+      --svg-rectmonthname: hsl(216, 12.2%, 97%);
+      --svg-y-fill: hsl(37, 100%, 72%);
+      --svg-r-fill: hsl(0, 100%, 72%);
+      --svg-g-fill: hsl(135, 100%, 72%);
+      --svg-text-color: #000;
+      --svg-day-now: #fff;
 
-html,
-body {
-  color: #444;
-  font-family: 'Helvetica', 'Verdana', sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
 
-html {
-  overflow: hidden;
-}
 
-body {
-  align-content: stretch;
-  align-items: stretch;
-  background: var(--back-color);
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
 
-/**
+      --dropdown-select-option-background: #f2f2f2;
+      --dropdown-select-option-text-shadow: none;
+      --dropdown-select-focus-color: #394349;
+      --dropdown-select-color: #62717a;
+      --dropdown-select-text-shadow: 0 1px white;
+      --dropdown-select-background: #f2f2f2;
+      /* Fallback for IE 8 */
+      --dropdown-before-after-border-bottom-color: #888;
+      --dropdown-background: #f2f2f2;
+      --dropdown-border-color: white #f7f7f7 whitesmoke;
+      --dropdown-background-gradient: rgba(0, 0, 0, 0.06);
+      --dropdown--webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+      --dropdown-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    }
+
+    :root[theme='dark'] {
+      --text-color: #fff;
+      --back-color: #000;
+
+      --head-color: hsl(196, 91%, 8%);
+      --head-textcolor: #fff;
+      --head-theme-image: url(https://mcfev.github.io/vtz-calendar/images/day.svg) center center no-repeat;
+
+      --svg-background: hsl(216, 12.2%, 10%);
+      --svg-rectmonthname: hsl(216, 12.2%, 5%);
+      --svg-y-fill: hsl(37, 100%, 30%);
+      --svg-r-fill: hsl(0, 100%, 30%);
+      --svg-g-fill: hsl(135, 100%, 30%);
+      --svg-text-color: #aaa;
+      --svg-day-now: #aaa;
+
+      --dropdown-select-option-background: #444;
+      --dropdown-select-option-text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+      --dropdown-select-focus-color: #ccc;
+      --dropdown-select-color: #aaa;
+      --dropdown-select-text-shadow: 0 1px black;
+      --dropdown-select-background: #444;
+      /* Fallback for IE 8 */
+      --dropdown-before-after-border-bottom-color: #aaa;
+      --dropdown-background: #444;
+      --dropdown-border-color: #111111 #0a0a0a black;
+      --dropdown-background-gradient: rgba(0, 0, 0, 0.4);
+      --dropdown--webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+      --dropdown-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      color: #444;
+      font-family: 'Helvetica', 'Verdana', sans-serif;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      align-content: stretch;
+      align-items: stretch;
+      background: var(--back-color);
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+    }
+
+    /**
  * Header
  */
 
-.header {
-  align-content: center;
-  align-items: stretch;
-  background: var(--head-color);
-  box-shadow:
-    0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 2px 9px 1px rgba(0, 0, 0, 0.12),
-    0 4px 2px -2px rgba(0, 0, 0, 0.2);
-  color: var(--head-textcolor);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  font-size: 20px;
-  height: 56px;
-  justify-content: flex-start;
-  padding: 16px 16px 0 16px;
-  position: fixed;
-  transition: transform 0.233s cubic-bezier(0, 0, 0.21, 1) 0.1s;
-  width: 100%;
-  will-change: transform;
-  z-index: 1000;
-}
+    .header {
+      align-content: center;
+      align-items: stretch;
+      background: var(--head-color);
+      box-shadow:
+        0 4px 5px 0 rgba(0, 0, 0, 0.14),
+        0 2px 9px 1px rgba(0, 0, 0, 0.12),
+        0 4px 2px -2px rgba(0, 0, 0, 0.2);
+      color: var(--head-textcolor);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      font-size: 20px;
+      height: 56px;
+      justify-content: flex-start;
+      padding: 16px 16px 0 16px;
+      position: fixed;
+      transition: transform 0.233s cubic-bezier(0, 0, 0.21, 1) 0.1s;
+      width: 100%;
+      will-change: transform;
+      z-index: 1000;
+    }
 
-.header h1 {
-  flex: 1;
-  font-size: 20px;
-  font-weight: 400;
-  margin: 0;
-}
+    .header h1 {
+      flex: 1;
+      font-size: 20px;
+      font-weight: 400;
+      margin: 0;
+    }
 
-.header button {
-  border: none;
-  cursor: pointer;
-  height: 24px;
-  margin-right: 16px;
-  opacity: 0.54;
-  outline: none;
-  overflow: hidden;
-  text-indent: -30000px;
-  transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
-  width: 24px;
-}
+    .header button {
+      border: none;
+      cursor: pointer;
+      height: 24px;
+      margin-right: 16px;
+      opacity: 0.54;
+      outline: none;
+      overflow: hidden;
+      text-indent: -30000px;
+      transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+      width: 24px;
+    }
 
-.header #butRefresh {
-  background: url(https://mcfev.github.io/vtz-calendar/images/refresh.svg) center center no-repeat;
-}
+    .header #butRefresh {
+      background: url(https://mcfev.github.io/vtz-calendar/images/refresh.svg) center center no-repeat;
+    }
 
-.header #butInstall {
-  background: url(https://mcfev.github.io/vtz-calendar/images/install.svg) center center no-repeat;
-}
+    .header #butInstall {
+      background: url(https://mcfev.github.io/vtz-calendar/images/install.svg) center center no-repeat;
+    }
 
-.header #butToday {
-  background: url(https://mcfev.github.io/vtz-calendar/images/today.svg) center center no-repeat;
-  background-size: 100% auto;
-}
+    .header #butToday {
+      background: url(https://mcfev.github.io/vtz-calendar/images/today.svg) center center no-repeat;
+      background-size: 100% auto;
+    }
 
-.header #butTheme {
-  background: var(--head-theme-image);
-  background-size: 100% auto;
-}
-  
-.header #butAbout {
-  background: url(https://mcfev.github.io/vtz-calendar/images/about.svg) center center no-repeat;
-  background-size: 100% auto;
-}
+    .header #butTheme {
+      background: var(--head-theme-image);
+      background-size: 100% auto;
+    }
 
-.header .powered-by {
-  color: white;
-  font-size: 0.6em;
-  text-decoration: none;
-}
-.main {
-  flex: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-top: 60px;
-}
+    .header #butAbout {
+      background: url(https://mcfev.github.io/vtz-calendar/images/about.svg) center center no-repeat;
+      background-size: 100% auto;
+    }
+
+    .header .powered-by {
+      color: white;
+      font-size: 0.6em;
+      text-decoration: none;
+    }
+
+    .main {
+      flex: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding-top: 60px;
+    }
 
 
 
-/*body {
+    /*body {
   background: #fff;
   /*color: #363269;
   font-weight: 300;
@@ -231,15 +235,16 @@ body {
   font-family: tahoma, Helvetica neue, roboto;
 }*/
 
-svg {
-  width: 100%;
-}
-/*select {
+    svg {
+      width: 100%;
+    }
+
+    /*select {
   font-size: 18pt;
   margin: 5px;
 }*/
 
-  /*font: monospace;
+    /*font: monospace;
   line-height: 1.2em;
   font-size: 15px;
   text-align: center;
@@ -254,46 +259,55 @@ svg {
 
 
 
-/*мои*/
+    /*мои*/
 
-#background {
-  fill: var(--svg-background);
-}
-#rectmonthname {
-  fill: var(--svg-rectmonthname);
-}
-#textmonthname {
-  font-weight: bold;
-  font-size: 7px;
-  font-family: tahoma;
-  fill: var(--svg-text-color);
-}
-.now {
-  stroke: var(--svg-day-now);
-  stroke-width: 4;
-}
-.y {
-  fill: var(--svg-y-fill);
-}
-.r {
-  fill: var(--svg-r-fill);
-}
-.g {
-  fill: var(--svg-g-fill);
-}
-.e {
-  fill: #ffffff00;
-}
-.day {
-  font-family: tahoma;
-  text-anchor: middle;
-  stroke: var(--svg-text-color);
-  stroke-width: 0.2;
-  fill: var(--svg-text-color);
-}
-.textdayofweek {
-  font-weight: bold;
-}
+    #background {
+      fill: var(--svg-background);
+    }
+
+    #rectmonthname {
+      fill: var(--svg-rectmonthname);
+    }
+
+    #textmonthname {
+      font-weight: bold;
+      font-size: 7px;
+      font-family: tahoma;
+      fill: var(--svg-text-color);
+    }
+
+    .now {
+      stroke: var(--svg-day-now);
+      stroke-width: 4;
+    }
+
+    .y {
+      fill: var(--svg-y-fill);
+    }
+
+    .r {
+      fill: var(--svg-r-fill);
+    }
+
+    .g {
+      fill: var(--svg-g-fill);
+    }
+
+    .e {
+      fill: #ffffff00;
+    }
+
+    .day {
+      font-family: tahoma;
+      text-anchor: middle;
+      stroke: var(--svg-text-color);
+      stroke-width: 0.2;
+      fill: var(--svg-text-color);
+    }
+
+    .textdayofweek {
+      font-weight: bold;
+    }
 
 
 
@@ -303,125 +317,125 @@ svg {
 
 
 
-.container {
-  margin: 10px auto;
-  /*margin: 80px auto;
+    .container {
+      margin: 10px auto;
+      /*margin: 80px auto;
   width: 400px;*/
-  text-align: center;
-}
+      text-align: center;
+    }
 
-.container > .dropdown {
-  margin: 0 5px;
-  vertical-align: top;
-}
+    .container>.dropdown {
+      margin: 0 5px;
+      vertical-align: top;
+    }
 
-/* Fix for IE 8 putting the arrows behind the select element. */
+    /* Fix for IE 8 putting the arrows behind the select element. */
 
-.lt-ie9 .dropdown {
-  z-index: 1;
-}
+    .lt-ie9 .dropdown {
+      z-index: 1;
+    }
 
-.lt-ie9 .dropdown-select {
-  z-index: -1;
-}
+    .lt-ie9 .dropdown-select {
+      z-index: -1;
+    }
 
-.lt-ie9 .dropdown-select:focus {
-  z-index: 3;
-}
+    .lt-ie9 .dropdown-select:focus {
+      z-index: 3;
+    }
 
-/* Dirty fix for Firefox adding padding where it shouldn't. */
+    /* Dirty fix for Firefox adding padding where it shouldn't. */
 
-@-moz-document url-prefix() {
-  .dropdown-select {
-    padding-left: 6px;
-  }
-}
-
-
+    @-moz-document url-prefix() {
+      .dropdown-select {
+        padding-left: 6px;
+      }
+    }
 
 
 
-.dropdown {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-  height: 28px;
-  width: 100px;
-  background: var(--dropdown-background);
-  border: 1px solid;
-  border-color: var(--dropdown-border-color);
-  border-radius: 3px;
-  background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
-  -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
-  box-shadow: var(--dropdown-box-shadow);
-}
 
-.dropdown:before, .dropdown:after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  top: 9px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border: 4px dashed;
-  border-color: #888888 transparent;
-  pointer-events: none;
-  border-bottom-color: var(--dropdown-before-after-border-bottom-color);
-}
 
-.dropdown:before {
-  border-bottom-style: solid;
-  border-top: none;
-}
+    .dropdown {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      height: 28px;
+      width: 100px;
+      background: var(--dropdown-background);
+      border: 1px solid;
+      border-color: var(--dropdown-border-color);
+      border-radius: 3px;
+      background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
+      -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
+      box-shadow: var(--dropdown-box-shadow);
+    }
 
-.dropdown:after {
-  margin-top: 7px;
-  border-top-style: solid;
-  border-bottom: none;
-}
+    .dropdown:before,
+    .dropdown:after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: 9px;
+      right: 10px;
+      width: 0;
+      height: 0;
+      border: 4px dashed;
+      border-color: #888888 transparent;
+      pointer-events: none;
+      border-bottom-color: var(--dropdown-before-after-border-bottom-color);
+    }
 
-.dropdown-select {
-  position: relative;
-  width: 130%;
-  margin: 0;
-  padding: 6px 8px 6px 10px;
-  height: 28px;
-  line-height: 14px;
-  font-size: 14px;
-  color: var(--dropdown-select-color);
-  text-shadow: var(--dropdown-select-text-shadow);
-  background: var(--dropdown-select-background);
-  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
-  border: 0;
-  border-radius: 0;
-  -webkit-appearance: none;
-}
+    .dropdown:before {
+      border-bottom-style: solid;
+      border-top: none;
+    }
 
-.dropdown-select:focus {
-  z-index: 3;
-  width: 100%;
-  color: var(--dropdown-select-focus-color);
-  /*outline: 2px solid #49aff2;
+    .dropdown:after {
+      margin-top: 7px;
+      border-top-style: solid;
+      border-bottom: none;
+    }
+
+    .dropdown-select {
+      position: relative;
+      width: 130%;
+      margin: 0;
+      padding: 6px 8px 6px 10px;
+      height: 28px;
+      line-height: 14px;
+      font-size: 14px;
+      color: var(--dropdown-select-color);
+      text-shadow: var(--dropdown-select-text-shadow);
+      background: var(--dropdown-select-background);
+      background: rgba(0, 0, 0, 0) !important;
+      /* "transparent" doesn't work with Opera */
+      border: 0;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+
+    .dropdown-select:focus {
+      z-index: 3;
+      width: 100%;
+      color: var(--dropdown-select-focus-color);
+      /*outline: 2px solid #49aff2;
   outline: 2px solid -webkit-focus-ring-color;
   outline-offset: -2px;*/
-  outline: 0px;
-  outline-offset: 0px;
-}
+      outline: 0px;
+      outline-offset: 0px;
+    }
 
-.dropdown-select > option {
-  margin: 3px;
-  padding: 6px 8px;
-  text-shadow: var(--dropdown-select-option-text-shadow);
-  background: var(--dropdown-select-option-background);
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-
+    .dropdown-select>option {
+      margin: 3px;
+      padding: 6px 8px;
+      text-shadow: var(--dropdown-select-option-text-shadow);
+      background: var(--dropdown-select-option-background);
+      border-radius: 3px;
+      cursor: pointer;
+    }
 
 
 
@@ -429,543 +443,545 @@ svg {
 
 
 
-.dropdown_btn {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-  height: 28px;
-  width: 30px;
-  background: var(--dropdown-background);
-  border: 1px solid;
-  border-color: var(--dropdown-border-color);
-  border-radius: 3px;
-  background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-  background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
-  -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
-  box-shadow: var(--dropdown-box-shadow);
-}
-
-.dropdown_btn-select {
-  position: relative;
-  width: 130%;
-  margin: 0;
-  padding: 0px 8px 0px 0px;
-  height: 28px;
-  line-height: 14px;
-  font-size: 14px;
-  color: var(--dropdown-select-color);
-  text-shadow: var(--dropdown-select-text-shadow);
-  background: var(--dropdown-select-background);
-  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
-  border: 0;
-  border-radius: 0;
-  -webkit-appearance: none;
-}
 
 
-/**
+    .dropdown_btn {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      height: 28px;
+      width: 30px;
+      background: var(--dropdown-background);
+      border: 1px solid;
+      border-color: var(--dropdown-border-color);
+      border-radius: 3px;
+      background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
+      background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
+      -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
+      box-shadow: var(--dropdown-box-shadow);
+    }
+
+    .dropdown_btn-select {
+      position: relative;
+      width: 130%;
+      margin: 0;
+      padding: 0px 8px 0px 0px;
+      height: 28px;
+      line-height: 14px;
+      font-size: 14px;
+      color: var(--dropdown-select-color);
+      text-shadow: var(--dropdown-select-text-shadow);
+      background: var(--dropdown-select-background);
+      background: rgba(0, 0, 0, 0) !important;
+      /* "transparent" doesn't work with Opera */
+      border: 0;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+
+
+    /**
  * Add dialog
  */
 
-#addDialogContainer {
-  background: rgba(0, 0, 0, 0.57);
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
-  width: 100%;
-  will-change: opacity;
-}
+    #addDialogContainer {
+      background: rgba(0, 0, 0, 0.57);
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+      width: 100%;
+      will-change: opacity;
+    }
 
-#addDialogContainer.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
+    #addDialogContainer.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-.dialog {
-  background: #fff;
-  border-radius: 2px;
-  box-shadow:
-    0 0 14px rgba(0, 0, 0, 0.24),
-    0 14px 28px rgba(0, 0, 0, 0.48);
-  left: 50%;
-  min-width: 280px;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%) translateY(30px);
-  transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
-}
+    .dialog {
+      background: #fff;
+      border-radius: 2px;
+      box-shadow:
+        0 0 14px rgba(0, 0, 0, 0.24),
+        0 14px 28px rgba(0, 0, 0, 0.48);
+      left: 50%;
+      min-width: 280px;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%) translateY(30px);
+      transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+    }
 
-.dialog > div {
-  padding-left: 24px;
-  padding-right: 24px;
-}
+    .dialog>div {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
 
-.dialog-title {
-  font-size: 1.25em;
-  padding-top: 20px;
-}
+    .dialog-title {
+      font-size: 1.25em;
+      padding-top: 20px;
+    }
 
-.dialog-body {
-  padding-bottom: 24px;
-  padding-top: 20px;
-  font-size: 0.9em;
-}
+    .dialog-body {
+      padding-bottom: 24px;
+      padding-top: 20px;
+      font-size: 0.9em;
+    }
 
-.dialog-body select {
-  width: 100%;
-}
+    .dialog-body select {
+      width: 100%;
+    }
 
-.dialog-buttons {
-  float: right;
-  padding-bottom: 16px;
-  padding-right: 17px !important;
-}
+    .dialog-buttons {
+      float: right;
+      padding-bottom: 16px;
+      padding-right: 17px !important;
+    }
 
-.dialog .button {
-  background: transparent;
-  border: none;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-</style>
+    .dialog .button {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
+
 <body translate="no">
-<header class="header">
-<h1>График работы</h1>
-<button id="butInstall" aria-label="Install" hidden=""></button>
-<button id="butRefresh" aria-label="Refresh" hidden=""></button>
-<button id="butToday" aria-label="Today"></button>
-<button id="butTheme" aria-label="Theme"></button>
-<button id="butAbout" aria-label="About"></button>
-</header>
-<main class="main">
-<form name="sel">
-<div class="container">
-<div class="dropdown_btn">
- <button type="button" class="dropdown_btn-select" id="MonthChangeBack" onClick="MonthChange_click(false)">&#9664;</button>
-</div>
-<div class="dropdown">
-<select name="month" class="dropdown-select">
-<option value="0">Январь</option>
-<option value="1">Февраль</option>
-<option value="2">Март</option>
-<option value="3">Апрель</option>
-<option value="4">Май</option>
-<option value="5">Июнь</option>
-<option value="6">Июль</option>
-<option value="7">Август</option>
-<option value="8">Сентябрь</option>
-<option value="9">Октябрь</option>
-<option value="10">Ноябрь</option>
-<option value="11">Декабрь</option>
-</select>
-</div>
-<div class="dropdown">
-<select name="year" class="dropdown-select">
-    <option value="0">2020</option>
-    <option value="1">2021</option>
-    <option value="2">2022</option>
-    <option value="3">2023</option>
-    <option value="4">2024</option>
-    <option value="5">2025</option>
-    <option value="6">2026</option>
-    <option value="7">2027</option>
-    <option value="8">2028</option>
-    <option value="9">2029</option>
-    <option value="10">2030</option>
-</select>
-</div>
-<div class="dropdown_btn">
- <button type="button" class="dropdown_btn-select" id="MonthChangeNext" onClick="MonthChange_click(true)">&#9654;</button>
-</div>
-</div>
-<div class="container">
-<div class="dropdown" style="width: 150px;">
-<select name="team" class="dropdown-select">
-<option value="1">А смена</option>
-<option value="0">Б смена</option>
-<option value="3">В смена</option>
-<option value="2">Г смена</option>
-<option value="4">Д1 смена</option>
-<option value="5">Д2 смена</option>
-<option value="6">А смена (новая)</option>
-<option value="7">Б смена (новая)</option>
-<option value="9">В смена (новая)</option>
-<option value="8">Г смена (новая)</option>
-</select>
-</div>
-</div>
-<div id="addDialogContainer">
-      <div class="dialog">
-        <div class="dialog-title">О программе</div>
-        <div class="dialog-body">
-          <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-          <p>Версия: 1.0.12</p>
-          <p>Автор: Филатов Евгений</p>
-          <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a></p>
-          <p>Помощь в развитии проекта: <a href="https://www.tinkoff.ru/cf/9Ap4OqqVqSv" target="_blank" rel="noreferrer">Т‑Банк</a>, <a href="https://yoomoney.ru/to/410013712876832" target="_blank" rel="noreferrer">ЮMoney</a><!--<a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, --></p>
+  <header class="header">
+    <h1>График работы</h1>
+    <button id="butInstall" aria-label="Install" hidden=""></button>
+    <button id="butRefresh" aria-label="Refresh" hidden=""></button>
+    <button id="butToday" aria-label="Today"></button>
+    <button id="butTheme" aria-label="Theme"></button>
+    <button id="butAbout" aria-label="About"></button>
+  </header>
+  <main class="main">
+    <form name="sel">
+      <div class="container">
+        <div class="dropdown_btn">
+          <button type="button" class="dropdown_btn-select" id="MonthChangeBack"
+            onClick="MonthChange_click(false)">&#9664;</button>
         </div>
-        <div class="dialog-buttons">
-          <button type="button" id="butDialogCancel" class="button">OK</button>
+        <div class="dropdown">
+          <select name="month" class="dropdown-select">
+            <option value="0">Январь</option>
+            <option value="1">Февраль</option>
+            <option value="2">Март</option>
+            <option value="3">Апрель</option>
+            <option value="4">Май</option>
+            <option value="5">Июнь</option>
+            <option value="6">Июль</option>
+            <option value="7">Август</option>
+            <option value="8">Сентябрь</option>
+            <option value="9">Октябрь</option>
+            <option value="10">Ноябрь</option>
+            <option value="11">Декабрь</option>
+          </select>
+        </div>
+        <div class="dropdown">
+          <select name="year" class="dropdown-select">
+            <option value="0">2020</option>
+            <option value="1">2021</option>
+            <option value="2">2022</option>
+            <option value="3">2023</option>
+            <option value="4">2024</option>
+            <option value="5">2025</option>
+            <option value="6">2026</option>
+            <option value="7">2027</option>
+            <option value="8">2028</option>
+            <option value="9">2029</option>
+            <option value="10">2030</option>
+          </select>
+        </div>
+        <div class="dropdown_btn">
+          <button type="button" class="dropdown_btn-select" id="MonthChangeNext"
+            onClick="MonthChange_click(true)">&#9654;</button>
         </div>
       </div>
-    </div>
-<svg width="90mm" height="90mm" viewBox="0 0 100 100" version="1.1" id="calendar">
-<g id="calendarlayer">
-</g>
-</svg>
-<svg width="90mm" height="36mm" viewBox="0 0 100 40" version="1.1" id="legend">
-  <g id="legendlayer">
-    <g transform="matrix(0.3,0,0,0.3,2,2)" id="legendlayerR" style="display: block">
-      <rect rx="5" ry="5" class="r" width="30" height="30" ></rect>
-      <text x="125" y="50%" class="day ">— первая смена (утро)&nbsp;&nbsp;</text>
-    </g>
-    <g transform="matrix(0.3,0,0,0.3,2,14)" id="legendlayerY" style="display: block">
-      <rect rx="5" ry="5" class="y" width="30" height="30" ></rect>
-      <text x="125" y="50%" class="day ">— вторая смена (вечер)</text>
-    </g>
-    <g transform="matrix(0.3,0,0,0.3,2,26)" id="legendlayerG" style="display: block">
-      <rect rx="5" ry="5" class="g" width="30" height="30" ></rect>
-      <text x="125" y="50%" class="day ">— третья смена (ночь)&nbsp;&nbsp;</text>
-    </g>
-  </g>
-</svg>
-</form>
-</main>
-<script src="./js/app.js"></script>
-<script id="rendered-js">
+      <div class="container">
+        <div class="dropdown" style="width: 150px;">
+          <select name="team" class="dropdown-select">
+            <option value="1">А смена</option>
+            <option value="0">Б смена</option>
+            <option value="3">В смена</option>
+            <option value="2">Г смена</option>
+            <option value="4">Д1 смена</option>
+            <option value="5">Д2 смена</option>
+            <option value="6">А смена (новая)</option>
+            <option value="7">Б смена (новая)</option>
+            <option value="9">В смена (новая)</option>
+            <option value="8">Г смена (новая)</option>
+          </select>
+        </div>
+      </div>
+      <div id="addDialogContainer">
+        <div class="dialog">
+          <div class="dialog-title">О программе</div>
+          <div class="dialog-body">
+            <p>Производственный календарь по сменам Волжского Трубного Завода</p>
+            <p>Версия: 1.0.13</p>
+            <p>Автор: Филатов Евгений</p>
+            <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
+            </p>
+            <p>Помощь в развитии проекта: <a href="https://www.tinkoff.ru/cf/9Ap4OqqVqSv" target="_blank"
+                rel="noreferrer">Т‑Банк</a>, <a href="https://yoomoney.ru/to/410013712876832" target="_blank"
+                rel="noreferrer">ЮMoney</a><!--<a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, -->
+            </p>
+          </div>
+          <div class="dialog-buttons">
+            <button type="button" id="butDialogCancel" class="button">OK</button>
+          </div>
+        </div>
+      </div>
+      <svg width="90mm" height="90mm" viewBox="0 0 100 100" version="1.1" id="calendar">
+        <g id="calendarlayer">
+        </g>
+      </svg>
+      <svg width="90mm" height="36mm" viewBox="0 0 100 40" version="1.1" id="legend">
+        <g id="legendlayer">
+          <g transform="matrix(0.3,0,0,0.3,2,2)" id="legendlayerR" style="display: block">
+            <rect rx="5" ry="5" class="r" width="30" height="30"></rect>
+            <text x="125" y="50%" class="day ">— первая смена (утро)&nbsp;&nbsp;</text>
+          </g>
+          <g transform="matrix(0.3,0,0,0.3,2,14)" id="legendlayerY" style="display: block">
+            <rect rx="5" ry="5" class="y" width="30" height="30"></rect>
+            <text x="125" y="50%" class="day ">— вторая смена (вечер)</text>
+          </g>
+          <g transform="matrix(0.3,0,0,0.3,2,26)" id="legendlayerG" style="display: block">
+            <rect rx="5" ry="5" class="g" width="30" height="30"></rect>
+            <text x="125" y="50%" class="day ">— третья смена (ночь)&nbsp;&nbsp;</text>
+          </g>
+        </g>
+      </svg>
+    </form>
+  </main>
+  <script src="./js/app.js"></script>
+  <script id="rendered-js">
 
-//todo переделать на генерацию +4 / -4 лет от текущего
-let minYear = 2020;
-let maxYear = 2030;
+    //todo переделать на генерацию +4 / -4 лет от текущего
+    let minYear = 2020;
+    let maxYear = 2030;
 
-function getDay(date) {
-  let day = date.getDay()
-  if (day == 0) day = 7
-  return day - 1
-}
-
-function getDateInt(date) {
-  let rez = date.getTime()
-  rez = rez / 86400000 //1000*60*60*24
-  return Math.floor(rez) + 1
-}
-
-function isNowDay(date) {
-  var now = new Date()
-
-  var y1 = now.getFullYear()
-  var y2 = date.getFullYear()
-  var m1 = now.getMonth()
-  var m2 = date.getMonth()
-  var d1 = now.getDate()
-  var d2 = date.getDate()
-  if (y1 == y2 && m1 == m2 && d1 == d2) {
-    return true
-  }
-  return false
-}
-
-String.prototype.firstLetterCaps = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1)
-}
-
-function item(x, y, text, rectStyle, isWeekOfDay = false) {
-  var style = isWeekOfDay ? 'textdayofweek' : ''
-  let rez = '<g transform="matrix(0.3,0,0,0.3,' + x + ',' + y + ')" id="g">'
-  rez += '    <rect rx="5" ry="5" class="' + rectStyle + '" width="30" height="30" ></rect>'
-  rez += '    <svg width="30" height="30" version="1.1">'
-  rez +=
-    '      <text x="50%" y="57%" alignment-baseline="middle" class="day ' +
-    style +
-    '">' +
-    text +
-    '</text>'
-  rez += '    </svg>'
-  rez += '  </g>'
-  return rez
-}
-
-function createCalendar(elem, year, mon, team) {
-  //let mon = month - 1 // месяцы в JS идут от 0 до 11, а не от 1 до 12
-  let d = new Date(year, mon)
-
-  let table =
-    '<g id="calendarlayer" style="display:inline" transform="translate(0,-197)">'
-  table +=
-    '<rect id="background" width="98" height="98" x="1" y="198" ry="2" rx="2">'
-  table +=
-    '</rect><rect id="rectmonthname" width="92" height="9" x="4" y="201" rx="1.3" ry="1.3"></rect>'
-  table +=
-    '<text id="textmonthname" x="7" y="208" >' +
-    d
-      .toLocaleString('ru', { month: 'long', year: 'numeric' })
-      .firstLetterCaps() +
-    '</text>'
-
-  var arrDayOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
-  px = 6
-  y = 213
-  for (let i = 0; i < 7; i++) {
-    table += item(px, y, arrDayOfWeek[i], 'e', true)
-    px = px + 13
-  }
-
-  // пробелы для первого ряда
-  // с понедельника до первого дня месяца
-  // * * * 1  2  3  4
-  px = 6
-  py = 227
-  for (let i = 0; i < getDay(d); i++) {
-    px = px + 13
-  }
-
-  index = 0
-  unixday = getDateInt(d)
-  // <td> ячейки календаря с датами
-  while (d.getMonth() == mon) {
-    let style = 'e'
-    if (team < 4) {
-      let caseSwitch = (unixday + (index - 1) - 4 * team) % 16
-      switch (caseSwitch) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-          style = 'r'
-          break
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-          style = 'y'
-          break
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-          style = 'g'
-          break
-      }
-      document.getElementById('legendlayerR').style.display = 'block'
-      document.getElementById('legendlayerY').style.display = 'block'
-      document.getElementById('legendlayerG').style.display = 'block'
-    } else if (team >= 4 && team <= 5) {
-      let caseSwitch = (unixday + (index - 2) - 2 * team) % 4
-      switch (caseSwitch) {
-        case 1:
-        case 2:
-          style = 'r'
-          break
-      }
-      document.getElementById('legendlayerR').style.display = 'block';
-      document.getElementById('legendlayerY').style.display = 'none';
-      document.getElementById('legendlayerG').style.display = 'none';
-    } else {
-      let caseSwitch = (unixday + (index - 2) - 3 * (team - 5)) % 4
-      switch (caseSwitch) {
-        case 1:
-          style = 'r'
-          break
-         case 2:
-          style = 'y'
-          break
-      }
-      document.getElementById('legendlayerR').style.display = 'block';
-      document.getElementById('legendlayerY').style.display = 'block';
-      document.getElementById('legendlayerG').style.display = 'none';
+    function getDay(date) {
+      let day = date.getDay()
+      if (day == 0) day = 7
+      return day - 1
     }
-    if (isNowDay(d)) {
-      style += ' now'
-    }
-    table += item(px, py, d.getDate(), style)
-    px = px + 13
 
-    if (getDay(d) % 7 == 6) {
-      // вс, последний день - перевод строки
-      py = py + 11
+    function getDateInt(date) {
+      let rez = date.getTime()
+      rez = rez / 86400000 //1000*60*60*24
+      return Math.floor(rez) + 1
+    }
+
+    function isNowDay(date) {
+      var now = new Date()
+
+      var y1 = now.getFullYear()
+      var y2 = date.getFullYear()
+      var m1 = now.getMonth()
+      var m2 = date.getMonth()
+      var d1 = now.getDate()
+      var d2 = date.getDate()
+      if (y1 == y2 && m1 == m2 && d1 == d2) {
+        return true
+      }
+      return false
+    }
+
+    String.prototype.firstLetterCaps = function () {
+      return this.charAt(0).toUpperCase() + this.slice(1)
+    }
+
+    function item(x, y, text, rectStyle, isWeekOfDay = false) {
+      var style = isWeekOfDay ? 'textdayofweek' : ''
+      let rez = '<g transform="matrix(0.3,0,0,0.3,' + x + ',' + y + ')" id="g">'
+      rez += '    <rect rx="5" ry="5" class="' + rectStyle + '" width="30" height="30" ></rect>'
+      rez += '    <svg width="30" height="30" version="1.1">'
+      rez +=
+        '      <text x="50%" y="57%" alignment-baseline="middle" class="day ' +
+        style +
+        '">' +
+        text +
+        '</text>'
+      rez += '    </svg>'
+      rez += '  </g>'
+      return rez
+    }
+
+    function createCalendar(elem, year, mon, team) {
+      //let mon = month - 1 // месяцы в JS идут от 0 до 11, а не от 1 до 12
+      let d = new Date(year, mon)
+
+      let table =
+        '<g id="calendarlayer" style="display:inline" transform="translate(0,-197)">'
+      table +=
+        '<rect id="background" width="98" height="98" x="1" y="198" ry="2" rx="2">'
+      table +=
+        '</rect><rect id="rectmonthname" width="92" height="9" x="4" y="201" rx="1.3" ry="1.3"></rect>'
+      table +=
+        '<text id="textmonthname" x="7" y="208" >' +
+        d
+          .toLocaleString('ru', { month: 'long', year: 'numeric' })
+          .firstLetterCaps() +
+        '</text>'
+
+      var arrDayOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
       px = 6
+      y = 213
+      for (let i = 0; i < 7; i++) {
+        table += item(px, y, arrDayOfWeek[i], 'e', true)
+        px = px + 13
+      }
+
+      // пробелы для первого ряда
+      // с понедельника до первого дня месяца
+      // * * * 1  2  3  4
+      px = 6
+      py = 227
+      for (let i = 0; i < getDay(d); i++) {
+        px = px + 13
+      }
+
+      index = 0
+      unixday = getDateInt(d)
+      // <td> ячейки календаря с датами
+      while (d.getMonth() == mon) {
+        let style = 'e'
+        if (team < 4) {
+          let caseSwitch = (unixday + (index - 1) - 4 * team) % 16
+          switch (caseSwitch) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+              style = 'r'
+              break
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+              style = 'y'
+              break
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+              style = 'g'
+              break
+          }
+          document.getElementById('legendlayerR').style.display = 'block'
+          document.getElementById('legendlayerY').style.display = 'block'
+          document.getElementById('legendlayerG').style.display = 'block'
+        } else if (team >= 4 && team <= 5) {
+          let caseSwitch = (unixday + (index - 2) - 2 * team) % 4
+          switch (caseSwitch) {
+            case 1:
+            case 2:
+              style = 'r'
+              break
+          }
+          document.getElementById('legendlayerR').style.display = 'block';
+          document.getElementById('legendlayerY').style.display = 'none';
+          document.getElementById('legendlayerG').style.display = 'none';
+        } else {
+          let caseSwitch = (unixday + (index - 2) - 3 * (team - 5)) % 4
+          switch (caseSwitch) {
+            case 1:
+              style = 'r'
+              break
+            case 2:
+              style = 'y'
+              break
+          }
+          document.getElementById('legendlayerR').style.display = 'block';
+          document.getElementById('legendlayerY').style.display = 'block';
+          document.getElementById('legendlayerG').style.display = 'none';
+        }
+        if (isNowDay(d)) {
+          style += ' now'
+        }
+        table += item(px, py, d.getDate(), style)
+        px = px + 13
+
+        if (getDay(d) % 7 == 6) {
+          // вс, последний день - перевод строки
+          py = py + 11
+          px = 6
+        }
+
+        d.setDate(d.getDate() + 1)
+        index++
+      }
+
+      // закрыть таблицу
+      table += '</g>'
+
+      elem.innerHTML = table
     }
 
-    d.setDate(d.getDate() + 1)
-    index++
-  }
-
-  // закрыть таблицу
-  table += '</g>'
-
-  elem.innerHTML = table
-}
-
-function ChangeValue() {
-  var form = document.forms.sel
-  var monthElem = form.elements.month
-  var yearElem = form.elements.year
-  var teamElem = form.elements.team
-  var teamValue = parseInt(teamElem.value)
-  createCalendar(
-    calendar,
-    parseInt(yearElem.value) + minYear,
-    parseInt(monthElem.value),
-    teamValue
-  )
-  localStorage.team = teamValue
-}
-
-
-var form = document.forms.sel
-var monthElem = form.elements.month
-var yearElem = form.elements.year
-var teamElem = form.elements.team
-var curMonth = new Date().getMonth()
-var curYear = new Date().getFullYear()
-var curTeam = localStorage.team
-teamElem.value = curTeam
-monthElem.value = curMonth
-yearElem.value = curYear - minYear
-
-
-createCalendar(calendarlayer, curYear, curMonth, curTeam)
-
-monthElem.onchange = function onchangeMonth() {
-  ChangeValue()
-}
-yearElem.onchange = function onchangeYear() {
-  ChangeValue()
-}
-teamElem.onchange = function onchangeTeam() {
-  ChangeValue()
-}
-
-const butTheme = document.querySelector("#butTheme");
-butTheme.addEventListener("click", function() {
-    if(document.documentElement.hasAttribute("theme")){
-        document.documentElement.removeAttribute("theme")
-        localStorage.theme = "day"
+    function ChangeValue() {
+      var form = document.forms.sel
+      var monthElem = form.elements.month
+      var yearElem = form.elements.year
+      var teamElem = form.elements.team
+      var teamValue = parseInt(teamElem.value)
+      createCalendar(
+        calendar,
+        parseInt(yearElem.value) + minYear,
+        parseInt(monthElem.value),
+        teamValue
+      )
+      localStorage.team = teamValue
     }
-    else{
-        document.documentElement.setAttribute("theme", "dark")
-        localStorage.theme = "night"
-    }
-})
-  
-const butToday = document.querySelector("#butToday");
-butToday.addEventListener("click", function() {
+
+
     var form = document.forms.sel
     var monthElem = form.elements.month
     var yearElem = form.elements.year
+    var teamElem = form.elements.team
     var curMonth = new Date().getMonth()
     var curYear = new Date().getFullYear()
+    var curTeam = localStorage.team
+    teamElem.value = curTeam
     monthElem.value = curMonth
     yearElem.value = curYear - minYear
-    ChangeValue()
-})
 
-function MonthChange_click(isNext)
-{
-    var form = document.forms.sel
-    var monthElem = form.elements.month
-    var yearElem = form.elements.year
-    var curMonth = parseInt(monthElem.value)
-    var curYear = parseInt(yearElem.value) + minYear
-    if(isNext)
-    {
-      curMonth = curMonth + 1
+
+    createCalendar(calendarlayer, curYear, curMonth, curTeam)
+
+    monthElem.onchange = function onchangeMonth() {
+      ChangeValue()
     }
-    else
-    {
-      curMonth = curMonth - 1
+    yearElem.onchange = function onchangeYear() {
+      ChangeValue()
     }
-    if(curMonth == -1)
-    {
-      curMonth = 11
-      if(curYear != minYear)
-      {
-        curYear = curYear - 1
+    teamElem.onchange = function onchangeTeam() {
+      ChangeValue()
+    }
+
+    const butTheme = document.querySelector("#butTheme");
+    butTheme.addEventListener("click", function () {
+      if (document.documentElement.hasAttribute("theme")) {
+        document.documentElement.removeAttribute("theme")
+        localStorage.theme = "day"
       }
-      else
-      {
-        curYear = maxYear
+      else {
+        document.documentElement.setAttribute("theme", "dark")
+        localStorage.theme = "night"
       }
-    }
-    if(curMonth == 12)
-    {
-      curMonth = 0
-      if(curYear != maxYear)
-      {
-        curYear = curYear + 1
+    })
+
+    const butToday = document.querySelector("#butToday");
+    butToday.addEventListener("click", function () {
+      var form = document.forms.sel
+      var monthElem = form.elements.month
+      var yearElem = form.elements.year
+      var curMonth = new Date().getMonth()
+      var curYear = new Date().getFullYear()
+      monthElem.value = curMonth
+      yearElem.value = curYear - minYear
+      ChangeValue()
+    })
+
+    function MonthChange_click(isNext) {
+      var form = document.forms.sel
+      var monthElem = form.elements.month
+      var yearElem = form.elements.year
+      var curMonth = parseInt(monthElem.value)
+      var curYear = parseInt(yearElem.value) + minYear
+      if (isNext) {
+        curMonth = curMonth + 1
       }
-      else
-      {
-        curYear = minYear
+      else {
+        curMonth = curMonth - 1
       }
+      if (curMonth == -1) {
+        curMonth = 11
+        if (curYear != minYear) {
+          curYear = curYear - 1
+        }
+        else {
+          curYear = maxYear
+        }
+      }
+      if (curMonth == 12) {
+        curMonth = 0
+        if (curYear != maxYear) {
+          curYear = curYear + 1
+        }
+        else {
+          curYear = minYear
+        }
+      }
+      monthElem.value = curMonth
+      yearElem.value = curYear - minYear
+      ChangeValue()
     }
-    monthElem.value = curMonth
-    yearElem.value = curYear - minYear
-    ChangeValue()
-}
 
-document.getElementById("butAbout").addEventListener("click", toggleAddDialog);
-document.getElementById("butDialogCancel").addEventListener("click", toggleAddDialog);
+    document.getElementById("butAbout").addEventListener("click", toggleAddDialog);
+    document.getElementById("butDialogCancel").addEventListener("click", toggleAddDialog);
 
-function toggleAddDialog() {
-  document.getElementById("addDialogContainer").classList.toggle("visible");
-}
-
-
-//+свайпы - https://be-os.ru/js-swipe-tinder/
-document.addEventListener('touchstart', handleTouchStart, false)
-document.addEventListener('touchmove', handleTouchMove, false)
-var xDown = null
-var yDown = null
- 
-function getTouches(evt) {
-  return evt.touches
-}
- 
-function handleTouchStart(evt) {
-  const firstTouch = getTouches(evt)[0]
-  xDown = firstTouch.clientX
-  yDown = firstTouch.clientY
-}
-
-function handleTouchMove(evt) {
-  if (!xDown || !yDown) {
-    return
-  }
-
-  var xUp = evt.touches[0].clientX
-  var yUp = evt.touches[0].clientY
-
-  var xDiff = xDown - xUp
-  var yDiff = yDown - yUp
-
-  if (Math.abs(xDiff) > Math.abs(yDiff)) {// отлавливаем разницу в движении
-    if (xDiff > 0) {
-      /* swipe влево */
-      MonthChange_click(true)
-    } else {
-      /* swipe вправо */
-      MonthChange_click(false)
+    function toggleAddDialog() {
+      document.getElementById("addDialogContainer").classList.toggle("visible");
     }
-  } else {
-    if (yDiff > 0) {
-      /* swipe вверх */
-    } else {
-      /* swipe вниз */
+
+
+    //+свайпы - https://be-os.ru/js-swipe-tinder/
+    document.addEventListener('touchstart', handleTouchStart, false)
+    document.addEventListener('touchmove', handleTouchMove, false)
+    var xDown = null
+    var yDown = null
+
+    function getTouches(evt) {
+      return evt.touches
     }
-  }
-  /* свайп был, обнуляем координаты */
-  xDown = null;
-  yDown = null;
-}
-//-свайпы
-    </script>
+
+    function handleTouchStart(evt) {
+      const firstTouch = getTouches(evt)[0]
+      xDown = firstTouch.clientX
+      yDown = firstTouch.clientY
+    }
+
+    function handleTouchMove(evt) {
+      if (!xDown || !yDown) {
+        return
+      }
+
+      var xUp = evt.touches[0].clientX
+      var yUp = evt.touches[0].clientY
+
+      var xDiff = xDown - xUp
+      var yDiff = yDown - yUp
+
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {// отлавливаем разницу в движении
+        if (xDiff > 0) {
+          /* swipe влево */
+          MonthChange_click(true)
+        } else {
+          /* swipe вправо */
+          MonthChange_click(false)
+        }
+      } else {
+        if (yDiff > 0) {
+          /* swipe вверх */
+        } else {
+          /* swipe вниз */
+        }
+      }
+      /* свайп был, обнуляем координаты */
+      xDown = null;
+      yDown = null;
+    }
+    //-свайпы
+  </script>
 </body>
+
 </html>
