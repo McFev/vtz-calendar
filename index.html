@@ -626,8 +626,9 @@
           <div class="dialog-title">О программе</div>
           <div class="dialog-body">
             <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-            <p>Версия: 1.0.14</p>
+            <p>Версия: 1.0.15</p>
             <p>Автор: Филатов Евгений</p>
+            <p><a href="#" id="shareLink">Поделиться приложением</a></p>
             <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
             </p>
             <p>Помощь в развитии проекта: <a href="https://www.tinkoff.ru/cf/9Ap4OqqVqSv" target="_blank"
@@ -981,6 +982,27 @@
       yDown = null;
     }
     //-свайпы
+
+    //+поделиться приложением
+    const shareLink = document.getElementById('shareLink');
+    shareLink.addEventListener('click', async (event) => {
+      event.preventDefault(); // Предотвращаем переход по ссылке
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'График работы ВТЗ',
+            text: 'Попробуй это приложение!',
+            url: window.location.href, // Текущая ссылка на приложение
+          });
+          console.log('Ссылка успешно отправлена');
+        } catch (error) {
+          console.error('Ошибка при использовании Web Share API:', error);
+        }
+      } else {
+        alert('Ваше устройство не поддерживает функцию «Поделиться».');
+      }
+    });
+    //-поделиться приложением
   </script>
 </body>
 
