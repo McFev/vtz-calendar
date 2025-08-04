@@ -1,5 +1,5 @@
 # Производственный календарь ВТЗ
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar)
 
 ![LighthouseReport](https://github.com/McFev/vtz-calendar/assets/2652370/540ff1a9-f7a1-44a8-9395-ab3c0a17dbc0)
 
