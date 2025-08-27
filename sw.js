@@ -1,11 +1,14 @@
-const staticCacheName = 'static-cache-v1_0_16';
-const dynamicCacheName = 'dynamic-cache-v1_0_16';
+const staticCacheName = 'static-cache-v1_0_17';
+const dynamicCacheName = 'dynamic-cache-v1_0_17';
 
 const staticAssets = [
     './',
     './index.html',
-    './images/icons/icon-128x128.png',
-    './images/icons/icon-192x192.png',
+    './images/icons/apple-touch-icon.png',
+    './images/icons/web-app-manifest-192x192.png',
+    './images/icons/web-app-manifest-512x512.png',
+    './images/icons/web-app-manifest-monochrome-192x192.png',
+    './images/icons/web-app-manifest-monochrome-512x512.png',
     './js/app.js',
     './images/no-image.jpg',
     './images/refresh.svg',
