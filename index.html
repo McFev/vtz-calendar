@@ -20,19 +20,43 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
-    //+значения при старте по умолчанию
-    if (localStorage.theme == null) {
-      if (window.matchMedia('(prefers-color-scheme: dark)').media === 'not all') {
-        localStorage.theme = "day"
-      } else {
-        localStorage.theme = "night"
-      }
+    //+изменение localStorage
+    let param = localStorage.getItem('vtzCalendar')
+    /*if(param) {
+      param = JSON.parse(param)
+    } else {
+      param = { team: 6, nightTheme: window.matchMedia('(prefers-color-scheme: dark)').media !== 'not all' }
+      localStorage.setItem('vtzCalendar', JSON.stringify(param))
+    }*/
+    param = param ? JSON.parse(param) : { team: null, nightTheme: null }
+    let saveDef = localStorage.theme != null || localStorage.team != null
+    if (localStorage.theme != null) {
+      param.nightTheme = localStorage.theme == "night"
+      localStorage.removeItem('theme')
     }
-    if (localStorage.team == null) {
-      localStorage.team = 6
+    if (localStorage.team != null) {
+      param.team = parseInt(localStorage.team)
+      localStorage.removeItem('team')
+    }
+    if (saveDef) {
+      localStorage.setItem('vtzCalendar', JSON.stringify(param))
+    }
+    //-изменение localStorage
+
+    //+значения при старте по умолчанию
+    saveDef = param.nightTheme == null || param.team == null
+    if (param.nightTheme == null) {
+      param.nightTheme = window.matchMedia('(prefers-color-scheme: dark)').media !== 'not all'
+    }
+    if (param.team == null) {
+      param.team = 6
+    }
+    if (saveDef) {
+      localStorage.setItem('vtzCalendar', JSON.stringify(param))
     }
     //-значения при старте по умолчанию
-    if (localStorage.theme == "night") {
+    //todo переписать через год (01.12.2026) 2 блока выше 
+    if (param.nightTheme) {
       document.documentElement.setAttribute("theme", "dark")
     }
     else {
@@ -185,25 +209,17 @@
       width: 24px;
     }
 
-    .header #butRefresh {
-      background: url(https://mcfev.github.io/vtz-calendar/images/refresh.svg) center center no-repeat;
-    }
-
-    .header #butInstall {
-      background: url(https://mcfev.github.io/vtz-calendar/images/install.svg) center center no-repeat;
-    }
-
-    .header #butToday {
+    .header #btnToday {
       background: url(https://mcfev.github.io/vtz-calendar/images/today.svg) center center no-repeat;
       background-size: 100% auto;
     }
 
-    .header #butTheme {
+    .header #btnTheme {
       background: var(--head-theme-image);
       background-size: 100% auto;
     }
 
-    .header #butAbout {
+    .header #btnAbout {
       background: url(https://mcfev.github.io/vtz-calendar/images/about.svg) center center no-repeat;
       background-size: 100% auto;
     }
@@ -557,18 +573,16 @@
 <body translate="no">
   <header class="header">
     <h1>График работы</h1>
-    <button id="butInstall" aria-label="Install" hidden=""></button>
-    <button id="butRefresh" aria-label="Refresh" hidden=""></button>
-    <button id="butToday" aria-label="Today"></button>
-    <button id="butTheme" aria-label="Theme"></button>
-    <button id="butAbout" aria-label="About"></button>
+    <button id="btnToday" aria-label="Today"></button>
+    <button id="btnTheme" aria-label="Theme"></button>
+    <button id="btnAbout" aria-label="About"></button>
   </header>
   <main class="main">
     <form name="sel">
       <div class="container">
         <div class="dropdown_btn">
           <button type="button" class="dropdown_btn-select" id="MonthChangeBack"
-            onClick="MonthChange_click(false)">&#9664;</button>
+            onClick="monthChange(false)">&#9664;</button>
         </div>
         <div class="dropdown">
           <select name="month" class="dropdown-select">
@@ -587,23 +601,12 @@
           </select>
         </div>
         <div class="dropdown">
-          <select name="year" class="dropdown-select">
-            <option value="0">2020</option>
-            <option value="1">2021</option>
-            <option value="2">2022</option>
-            <option value="3">2023</option>
-            <option value="4">2024</option>
-            <option value="5">2025</option>
-            <option value="6">2026</option>
-            <option value="7">2027</option>
-            <option value="8">2028</option>
-            <option value="9">2029</option>
-            <option value="10">2030</option>
+          <select id="yearSelect" name="year" class="dropdown-select">
           </select>
         </div>
         <div class="dropdown_btn">
           <button type="button" class="dropdown_btn-select" id="MonthChangeNext"
-            onClick="MonthChange_click(true)">&#9654;</button>
+            onClick="monthChange(true)">&#9654;</button>
         </div>
       </div>
       <div class="container">
@@ -627,7 +630,7 @@
           <div class="dialog-title">О программе</div>
           <div class="dialog-body">
             <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-            <p>Версия: 1.0.19</p>
+            <p>Версия: 1.1.0</p>
             <p>Автор: Филатов Евгений</p>
             <p><a href="#" id="shareLink">Поделиться приложением</a></p>
             <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
@@ -638,7 +641,7 @@
             </p>
           </div>
           <div class="dialog-buttons">
-            <button type="button" id="butDialogCancel" class="button">OK</button>
+            <button type="button" id="btnDialogCancel" class="button">OK</button>
           </div>
         </div>
       </div>
@@ -666,10 +669,21 @@
   </main>
   <script src="./js/app.js"></script>
   <script id="rendered-js">
-
-    //todo переделать на генерацию +4 / -4 лет от текущего
-    let minYear = 2020;
-    let maxYear = 2030;
+    const form = document.forms.sel
+    const elMonth = form.elements.month
+    const elYear = form.elements.year
+    const elTeam = form.elements.team
+    const elCalendar = document.getElementById('calendar')
+    let currentMonth = new Date().getMonth()
+    let currentYear = new Date().getFullYear()
+    const minYear = currentYear - 5
+    const maxYear = currentYear + 5
+    for (let year = minYear; year <= maxYear; year++) {
+      const option = document.createElement('option')
+      option.value = year
+      option.textContent = year
+      elYear.appendChild(option)
+    }
 
     function getDay(date) {
       let day = date.getDay()
@@ -684,18 +698,7 @@
     }
 
     function isNowDay(date) {
-      var now = new Date()
-
-      var y1 = now.getFullYear()
-      var y2 = date.getFullYear()
-      var m1 = now.getMonth()
-      var m2 = date.getMonth()
-      var d1 = now.getDate()
-      var d2 = date.getDate()
-      if (y1 == y2 && m1 == m2 && d1 == d2) {
-        return true
-      }
-      return false
+      return new Date().toDateString() === date.toDateString()
     }
 
     String.prototype.firstLetterCaps = function () {
@@ -703,7 +706,7 @@
     }
 
     function item(x, y, text, rectStyle, isWeekOfDay = false) {
-      var style = isWeekOfDay ? 'textdayofweek' : ''
+      const style = isWeekOfDay ? 'textdayofweek' : ''
       let rez = '<g transform="matrix(0.3,0,0,0.3,' + x + ',' + y + ')" id="g">'
       rez += '    <rect rx="5" ry="5" class="' + rectStyle + '" width="30" height="30" ></rect>'
       rez += '    <svg width="30" height="30" version="1.1">'
@@ -718,9 +721,9 @@
       return rez
     }
 
-    function createCalendar(elem, year, mon, team) {
-      //let mon = month - 1 // месяцы в JS идут от 0 до 11, а не от 1 до 12
-      let d = new Date(year, mon)
+    function createCalendar() {
+      const team = param.team
+      let d = new Date(currentYear, currentMonth)
 
       let table =
         '<g id="calendarlayer" style="display:inline" transform="translate(0,-197)">'
@@ -735,27 +738,27 @@
           .firstLetterCaps() +
         '</text>'
 
-      var arrDayOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
-      px = 6
-      y = 213
+      const arrDayOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+      let px = 6
+      const y = 213
       for (let i = 0; i < 7; i++) {
         table += item(px, y, arrDayOfWeek[i], 'e', true)
-        px = px + 13
+        px += 13
       }
 
       // пробелы для первого ряда
       // с понедельника до первого дня месяца
       // * * * 1  2  3  4
       px = 6
-      py = 227
+      let py = 227
       for (let i = 0; i < getDay(d); i++) {
-        px = px + 13
+        px += 13
       }
 
-      index = 0
-      unixday = getDateInt(d)
+      let index = 0
+      const unixday = getDateInt(d)
       // <td> ячейки календаря с датами
-      while (d.getMonth() == mon) {
+      while (d.getMonth() == currentMonth) {
         let style = 'e'
         if (team < 4) {
           let caseSwitch = (unixday + (index - 1) - 4 * team) % 16
@@ -790,9 +793,9 @@
               style = 'r'
               break
           }
-          document.getElementById('legendlayerR').style.display = 'block';
-          document.getElementById('legendlayerY').style.display = 'none';
-          document.getElementById('legendlayerG').style.display = 'none';
+          document.getElementById('legendlayerR').style.display = 'block'
+          document.getElementById('legendlayerY').style.display = 'none'
+          document.getElementById('legendlayerG').style.display = 'none'
         } else {
           let caseSwitch = (unixday + (index - 2) - 3 * (team - 5)) % 4
           switch (caseSwitch) {
@@ -803,19 +806,19 @@
               style = 'y'
               break
           }
-          document.getElementById('legendlayerR').style.display = 'block';
-          document.getElementById('legendlayerY').style.display = 'block';
-          document.getElementById('legendlayerG').style.display = 'none';
+          document.getElementById('legendlayerR').style.display = 'block'
+          document.getElementById('legendlayerY').style.display = 'block'
+          document.getElementById('legendlayerG').style.display = 'none'
         }
         if (isNowDay(d)) {
           style += ' now'
         }
         table += item(px, py, d.getDate(), style)
-        px = px + 13
+        px += 13
 
         if (getDay(d) % 7 == 6) {
           // вс, последний день - перевод строки
-          py = py + 11
+          py += 11
           px = 6
         }
 
@@ -826,79 +829,51 @@
       // закрыть таблицу
       table += '</g>'
 
-      elem.innerHTML = table
+      elCalendar.innerHTML = table
     }
 
-    function ChangeValue() {
-      var form = document.forms.sel
-      var monthElem = form.elements.month
-      var yearElem = form.elements.year
-      var teamElem = form.elements.team
-      var teamValue = parseInt(teamElem.value)
-      createCalendar(
-        calendar,
-        parseInt(yearElem.value) + minYear,
-        parseInt(monthElem.value),
-        teamValue
-      )
-      localStorage.team = teamValue
+    elTeam.value = param.team
+    elMonth.value = currentMonth
+    elYear.value = currentYear
+
+    createCalendar()
+
+    elMonth.onchange = function onchangeMonth() {
+      createCalendar()
+    }
+    elYear.onchange = function onchangeYear() {
+      createCalendar()
+    }
+    elTeam.onchange = function onchangeTeam() {
+      param.team = parseInt(elTeam.value)
+      localStorage.setItem('vtzCalendar', JSON.stringify(param))
+      createCalendar()
     }
 
-
-    var form = document.forms.sel
-    var monthElem = form.elements.month
-    var yearElem = form.elements.year
-    var teamElem = form.elements.team
-    var curMonth = new Date().getMonth()
-    var curYear = new Date().getFullYear()
-    var curTeam = localStorage.team
-    teamElem.value = curTeam
-    monthElem.value = curMonth
-    yearElem.value = curYear - minYear
-
-
-    createCalendar(calendarlayer, curYear, curMonth, curTeam)
-
-    monthElem.onchange = function onchangeMonth() {
-      ChangeValue()
-    }
-    yearElem.onchange = function onchangeYear() {
-      ChangeValue()
-    }
-    teamElem.onchange = function onchangeTeam() {
-      ChangeValue()
-    }
-
-    const butTheme = document.querySelector("#butTheme");
-    butTheme.addEventListener("click", function () {
+    const btnTheme = document.querySelector("#btnTheme")
+    btnTheme.addEventListener("click", function () {
       if (document.documentElement.hasAttribute("theme")) {
         document.documentElement.removeAttribute("theme")
-        localStorage.theme = "day"
-      }
-      else {
+        param.nightTheme = false
+      } else {
         document.documentElement.setAttribute("theme", "dark")
-        localStorage.theme = "night"
+        param.nightTheme = true
       }
+      localStorage.setItem('vtzCalendar', JSON.stringify(param))
     })
 
-    const butToday = document.querySelector("#butToday");
-    butToday.addEventListener("click", function () {
-      var form = document.forms.sel
-      var monthElem = form.elements.month
-      var yearElem = form.elements.year
-      var curMonth = new Date().getMonth()
-      var curYear = new Date().getFullYear()
-      monthElem.value = curMonth
-      yearElem.value = curYear - minYear
-      ChangeValue()
+    const btnToday = document.querySelector("#btnToday")
+    btnToday.addEventListener("click", function () {
+      currentMonth = new Date().getMonth()
+      currentYear = new Date().getFullYear()
+      elMonth.value = currentMonth
+      elYear.value = currentYear
+      createCalendar()
     })
 
-    function MonthChange_click(isNext) {
-      var form = document.forms.sel
-      var monthElem = form.elements.month
-      var yearElem = form.elements.year
-      var curMonth = parseInt(monthElem.value)
-      var curYear = parseInt(yearElem.value) + minYear
+    function monthChange(isNext) {
+      let curMonth = parseInt(elMonth.value)
+      let curYear = parseInt(elYear.value)
       if (isNext) {
         curMonth = curMonth + 1
       }
@@ -923,24 +898,24 @@
           curYear = minYear
         }
       }
-      monthElem.value = curMonth
-      yearElem.value = curYear - minYear
-      ChangeValue()
+      currentMonth = curMonth
+      currentYear = curYear
+      elMonth.value = currentMonth
+      elYear.value = currentYear
+      createCalendar()
     }
 
-    document.getElementById("butAbout").addEventListener("click", toggleAddDialog);
-    document.getElementById("butDialogCancel").addEventListener("click", toggleAddDialog);
-
+    document.getElementById("btnAbout").addEventListener("click", toggleAddDialog)
+    document.getElementById("btnDialogCancel").addEventListener("click", toggleAddDialog)
     function toggleAddDialog() {
-      document.getElementById("addDialogContainer").classList.toggle("visible");
+      document.getElementById("addDialogContainer").classList.toggle("visible")
     }
-
 
     //+свайпы - https://be-os.ru/js-swipe-tinder/
     document.addEventListener('touchstart', handleTouchStart, false)
     document.addEventListener('touchmove', handleTouchMove, false)
-    var xDown = null
-    var yDown = null
+    let xDown = null
+    let yDown = null
 
     function getTouches(evt) {
       return evt.touches
@@ -957,19 +932,19 @@
         return
       }
 
-      var xUp = evt.touches[0].clientX
-      var yUp = evt.touches[0].clientY
+      let xUp = evt.touches[0].clientX
+      let yUp = evt.touches[0].clientY
 
-      var xDiff = xDown - xUp
-      var yDiff = yDown - yUp
+      let xDiff = xDown - xUp
+      let yDiff = yDown - yUp
 
       if (Math.abs(xDiff) > Math.abs(yDiff)) {// отлавливаем разницу в движении
         if (xDiff > 0) {
           /* swipe влево */
-          MonthChange_click(true)
+          monthChange(true)
         } else {
           /* swipe вправо */
-          MonthChange_click(false)
+          monthChange(false)
         }
       } else {
         if (yDiff > 0) {
@@ -979,30 +954,30 @@
         }
       }
       /* свайп был, обнуляем координаты */
-      xDown = null;
-      yDown = null;
+      xDown = null
+      yDown = null
     }
     //-свайпы
 
     //+поделиться приложением
-    const shareLink = document.getElementById('shareLink');
+    const shareLink = document.getElementById('shareLink')
     shareLink.addEventListener('click', async (event) => {
-      event.preventDefault(); // Предотвращаем переход по ссылке
+      event.preventDefault() // Предотвращаем переход по ссылке
       if (navigator.share) {
         try {
           await navigator.share({
             title: 'График работы ВТЗ',
             text: 'Попробуй это приложение!',
             url: window.location.href, // Текущая ссылка на приложение
-          });
-          console.log('Ссылка успешно отправлена');
+          })
+          console.log('Ссылка успешно отправлена')
         } catch (error) {
-          console.error('Ошибка при использовании Web Share API:', error);
+          console.error('Ошибка при использовании Web Share API:', error)
         }
       } else {
-        alert('Ваше устройство не поддерживает функцию «Поделиться».');
+        alert('Ваше устройство не поддерживает функцию «Поделиться»')
       }
-    });
+    })
     //-поделиться приложением
   </script>
 </body>

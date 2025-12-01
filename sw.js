@@ -1,5 +1,5 @@
-const staticCacheName = 'static-cache-v1_0_19';
-const dynamicCacheName = 'dynamic-cache-v1_0_19';
+const staticCacheName = 'static-cache-v1_1_0';
+const dynamicCacheName = 'dynamic-cache-v1_1_0';
 
 const staticAssets = [
     './',
@@ -11,8 +11,6 @@ const staticAssets = [
     './images/icons/web-app-manifest-monochrome-512x512.png',
     './js/app.js',
     './images/no-image.jpg',
-    './images/refresh.svg',
-    './images/install.svg',
     './images/today.svg',
     './images/day.svg',
     './images/night.svg',
