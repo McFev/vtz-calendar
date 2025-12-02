@@ -1,7 +1,7 @@
 # Производственный календарь ВТЗ
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar)
+[![pages-build-deployment](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![No Ads](https://img.shields.io/badge/No%20Ads-orange)
 
-![LighthouseReport](https://github.com/McFev/vtz-calendar/assets/2652370/540ff1a9-f7a1-44a8-9395-ab3c0a17dbc0)
+![LighthouseReport](https://github.com/user-attachments/assets/b50f4bfd-3146-435f-b6a0-0bb0bfcb475d)
 
 ## Описание
 Производственный календарь по сменам Волжского Трубного Завода
