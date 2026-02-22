@@ -20,6 +20,8 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
+    const APP_VERSION = "1.1.5";
+
     //+изменение localStorage
     let param = localStorage.getItem('vtzCalendar')
     /*if(param) {
@@ -566,6 +568,7 @@
       border: none;
       font-size: 14px;
       text-transform: uppercase;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -581,7 +584,7 @@
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=105747091', 'ym');
 
     ym(105747091, 'init', { ssr: true, clickmap: true, accurateTrackBounce: true, trackLinks: true });
-    ym(105747091, 'params', { app_version: "1.1.4" });
+    ym(105747091, 'params', { app_version: APP_VERSION });
   </script>
   <noscript>
     <div><img src="https://mc.yandex.ru/watch/105747091" style="position:absolute; left:-9999px;" alt="" /></div>
@@ -594,7 +597,7 @@
     <button id="btnAbout" aria-label="About"></button>
   </header>
   <main class="main">
-    <form name="sel">
+    <form name="selectionForm">
       <div class="container">
         <div class="dropdown_btn">
           <button type="button" class="dropdown_btn-select" id="MonthChangeBack"
@@ -646,14 +649,13 @@
           <div class="dialog-title">О программе</div>
           <div class="dialog-body">
             <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-            <p>Версия: 1.1.4</p>
+            <p id="APP_VERSION">Версия: X.X.X</p>
             <p>Автор: Филатов Евгений</p>
             <p><a href="#" id="shareLink">Поделиться приложением</a></p>
             <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
             </p>
-            <p>Помощь в развитии проекта: <a href="https://www.tinkoff.ru/cf/9Ap4OqqVqSv" target="_blank"
-                rel="noreferrer">Т‑Банк</a>, <a href="https://yoomoney.ru/to/410013712876832" target="_blank"
-                rel="noreferrer">ЮMoney</a><!--<a href="https://qiwi.com/n/MCFEV" target="_blank" rel="noreferrer">Qiwi</a>, -->
+            <p>Помощь в развитии проекта: <a href="https://www.tbank.ru/cf/25TOwSos5Fn" target="_blank"
+                rel="noreferrer">Т‑Банк</a>
             </p>
           </div>
           <div class="dialog-buttons">
@@ -685,10 +687,12 @@
   </main>
   <script src="./js/app.js"></script>
   <script id="rendered-js">
-    const form = document.forms.sel
-    const elMonth = form.elements.month
-    const elYear = form.elements.year
-    const elTeam = form.elements.team
+    document.getElementById('APP_VERSION').textContent = `Версия: ${APP_VERSION}`
+
+    const selectionForm = document.forms.selectionForm
+    const elMonth = selectionForm.elements.month
+    const elYear = selectionForm.elements.year
+    const elTeam = selectionForm.elements.team
     const elCalendar = document.getElementById('calendar')
     let currentMonth = new Date().getMonth()
     let currentYear = new Date().getFullYear()
