@@ -1,4 +1,3 @@
-![Uploading lighthouse-report.svg…]()
 # Производственный календарь ВТЗ
 [![pages-build-deployment](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![No Ads](https://img.shields.io/badge/No%20Ads-orange)
 
