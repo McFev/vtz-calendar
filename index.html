@@ -20,7 +20,7 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
-    const APP_VERSION = "1.1.5";
+    const APP_VERSION = "1.1.6";
 
     //+изменение localStorage
     let param = localStorage.getItem('vtzCalendar')
@@ -859,9 +859,11 @@
     createCalendar()
 
     elMonth.onchange = function onchangeMonth() {
+      currentMonth = parseInt(elMonth.value)
       createCalendar()
     }
     elYear.onchange = function onchangeYear() {
+      currentYear = parseInt(elYear.value)
       createCalendar()
     }
     elTeam.onchange = function onchangeTeam() {
