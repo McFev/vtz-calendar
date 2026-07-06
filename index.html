@@ -20,7 +20,7 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
-    const APP_VERSION = "1.1.6";
+    const APP_VERSION = "1.1.7";
 
     //+изменение localStorage
     let param = localStorage.getItem('vtzCalendar')
@@ -140,7 +140,7 @@
     html,
     body {
       color: #444;
-      font-family: 'Helvetica', 'Verdana', sans-serif;
+      font-family: "Inter", Verdana, Arial, sans-serif;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       height: 100%;
@@ -164,9 +164,7 @@
       touch-action: pan-x pan-y;
     }
 
-    /**
- * Header
- */
+    /* Header */
 
     .header {
       align-content: center;
@@ -226,12 +224,6 @@
       background-size: 100% auto;
     }
 
-    .header .powered-by {
-      color: white;
-      font-size: 0.6em;
-      text-decoration: none;
-    }
-
     .main {
       flex: 1;
       overflow-x: hidden;
@@ -239,46 +231,11 @@
       padding-top: 60px;
     }
 
-
-
-    /*body {
-  background: #fff;
-  /*color: #363269;
-  font-weight: 300;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-family: tahoma, Helvetica neue, roboto;
-}*/
-
     svg {
       width: 100%;
     }
 
-    /*select {
-  font-size: 18pt;
-  margin: 5px;
-}*/
-
-    /*font: monospace;
-  line-height: 1.2em;
-  font-size: 15px;
-  text-align: center;
-}
-
-/*#calendar tbody td {
-  color: rgb(44, 86, 122);
-}*/
-
-
-
-
-
-
-    /*мои*/
+    /* Мои */
 
     #background {
       fill: var(--svg-background);
@@ -291,7 +248,7 @@
     #textmonthname {
       font-weight: bold;
       font-size: 7px;
-      font-family: tahoma;
+      font-family: Arial, sans-serif;
       fill: var(--svg-text-color);
     }
 
@@ -317,7 +274,7 @@
     }
 
     .day {
-      font-family: tahoma;
+      font-family: Arial, sans-serif;
       text-anchor: middle;
       stroke: var(--svg-text-color);
       stroke-width: 0.2;
@@ -501,27 +458,7 @@
     }
 
 
-    /**
- * Add dialog
- */
-
-    #addDialogContainer {
-      background: rgba(0, 0, 0, 0.57);
-      height: 100%;
-      left: 0;
-      opacity: 0;
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
-      width: 100%;
-      will-change: opacity;
-    }
-
-    #addDialogContainer.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    /* Add dialog */
 
     .dialog {
       background: #fff;
@@ -529,12 +466,15 @@
       box-shadow:
         0 0 14px rgba(0, 0, 0, 0.24),
         0 14px 28px rgba(0, 0, 0, 0.48);
-      left: 50%;
+      width: min(75vw, 420px);
       min-width: 280px;
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%) translateY(30px);
+      border: none;
       transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+      position: fixed;
+    }
+
+    [popover]::backdrop {
+      background: rgba(0, 0, 0, 0.57);
     }
 
     .dialog>div {
@@ -553,14 +493,10 @@
       font-size: 0.9em;
     }
 
-    .dialog-body select {
-      width: 100%;
-    }
-
     .dialog-buttons {
       float: right;
       padding-bottom: 16px;
-      padding-right: 17px !important;
+      padding-right: 17px;
     }
 
     .dialog .button {
@@ -594,7 +530,7 @@
     <h1>График работы</h1>
     <button id="btnToday" aria-label="Today"></button>
     <button id="btnTheme" aria-label="Theme"></button>
-    <button id="btnAbout" aria-label="About"></button>
+    <button id="btnAbout" aria-label="About" popovertarget="dialogAbout"></button>
   </header>
   <main class="main">
     <form name="selectionForm">
@@ -644,25 +580,6 @@
           </select>
         </div>
       </div>
-      <div id="addDialogContainer">
-        <div class="dialog">
-          <div class="dialog-title">О программе</div>
-          <div class="dialog-body">
-            <p>Производственный календарь по сменам Волжского Трубного Завода</p>
-            <p id="APP_VERSION">Версия: X.X.X</p>
-            <p>Автор: Филатов Евгений</p>
-            <p><a href="#" id="shareLink">Поделиться приложением</a></p>
-            <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
-            </p>
-            <p>Помощь в развитии проекта: <a href="https://www.tbank.ru/cf/25TOwSos5Fn" target="_blank"
-                rel="noreferrer">Т‑Банк</a>
-            </p>
-          </div>
-          <div class="dialog-buttons">
-            <button type="button" id="btnDialogCancel" class="button">OK</button>
-          </div>
-        </div>
-      </div>
       <svg width="90mm" height="90mm" viewBox="0 0 100 100" version="1.1" id="calendar">
         <g id="calendarlayer">
         </g>
@@ -684,10 +601,30 @@
         </g>
       </svg>
     </form>
+
+    <div class="dialog" id="dialogAbout" popover="auto">
+      <div class="dialog-title">О программе</div>
+      <div class="dialog-body">
+        <p>Производственный календарь по сменам Волжского Трубного Завода</p>
+        <p id="APP_VERSION">Версия: X.X.X</p>
+        <p>Автор: Филатов Евгений</p>
+        <p><a href="#" id="shareLink">Поделиться приложением</a></p>
+        <p>Исходный код: <a href="https://github.com/McFev/vtz-calendar" target="_blank" rel="noreferrer">github</a>
+        </p>
+        <p>Помощь в развитии проекта: <a href="https://www.tbank.ru/cf/25TOwSos5Fn" target="_blank"
+            rel="noreferrer">Т‑Банк</a>
+        </p>
+      </div>
+      <div class="dialog-buttons">
+        <button type="button" id="btnDialogCancel" class="button" popovertarget="dialogAbout"
+          popovertargetaction="hide">OK</button>
+      </div>
+    </div>
   </main>
   <script src="./js/app.js"></script>
   <script id="rendered-js">
     document.getElementById('APP_VERSION').textContent = `Версия: ${APP_VERSION}`
+    const dialog = document.getElementById('dialogAbout');
 
     const selectionForm = document.forms.selectionForm
     const elMonth = selectionForm.elements.month
@@ -894,6 +831,9 @@
     })
 
     function monthChange(isNext) {
+      if (dialog.matches(':popover-open')) {
+        return
+      }
       let curMonth = parseInt(elMonth.value)
       let curYear = parseInt(elYear.value)
       if (isNext) {
@@ -925,12 +865,6 @@
       elMonth.value = currentMonth
       elYear.value = currentYear
       createCalendar()
-    }
-
-    document.getElementById("btnAbout").addEventListener("click", toggleAddDialog)
-    document.getElementById("btnDialogCancel").addEventListener("click", toggleAddDialog)
-    function toggleAddDialog() {
-      document.getElementById("addDialogContainer").classList.toggle("visible")
     }
 
     //+свайпы - https://be-os.ru/js-swipe-tinder/
