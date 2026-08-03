@@ -20,7 +20,7 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
-    const APP_VERSION = "1.1.9";
+    const APP_VERSION = "1.1.10";
 
     //+изменение localStorage
     let param = localStorage.getItem('vtzCalendar')
@@ -71,6 +71,8 @@
     :root {
       --text-color: #000;
       --back-color: #fff;
+      --dialog-back-color: #fff;
+      --link-color: hsl(196, 91%, 50%);
 
       --head-color: hsl(196, 91%, 8%);
       --head-textcolor: #fff;
@@ -105,6 +107,8 @@
     :root[theme='dark'] {
       --text-color: #fff;
       --back-color: #000;
+      --dialog-back-color: #191919;
+      --link-color: hsl(196, 91%, 50%);
 
       --head-color: hsl(196, 91%, 8%);
       --head-textcolor: #fff;
@@ -465,7 +469,8 @@
     /* Add dialog */
 
     .dialog {
-      background: #fff;
+      background: var(--dialog-back-color);
+      color: var(--text-color);
       border-radius: 10px;
       box-shadow:
         0 0 14px rgba(0, 0, 0, 0.24),
@@ -475,6 +480,10 @@
       border: none;
       transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
       position: fixed;
+    }
+    
+    .dialog a {
+      color: var(--link-color);
     }
 
     [popover]::backdrop {
@@ -504,6 +513,7 @@
     }
 
     .dialog .button {
+      color: var(--text-color);
       background: transparent;
       border: none;
       font-size: 14px;
