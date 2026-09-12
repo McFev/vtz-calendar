@@ -20,7 +20,7 @@
   <meta name="msapplication-TileColor" content="#021d27">
   <title>График работы</title>
   <script>
-    const APP_VERSION = "1.1.10";
+    const APP_VERSION = "1.1.11";
 
     //+изменение localStorage
     let param = localStorage.getItem('vtzCalendar')
@@ -67,7 +67,7 @@
   </script>
 
   <style>
-    /*переменные для темы*/
+    /* Переменные темы */
     :root {
       --text-color: #000;
       --back-color: #fff;
@@ -86,21 +86,15 @@
       --svg-text-color: #000;
       --svg-day-now: #fff;
 
-
-
-
       --dropdown-select-option-background: #f2f2f2;
       --dropdown-select-option-text-shadow: none;
       --dropdown-select-focus-color: #394349;
       --dropdown-select-color: #62717a;
       --dropdown-select-text-shadow: 0 1px white;
-      --dropdown-select-background: #f2f2f2;
-      /* Fallback for IE 8 */
       --dropdown-before-after-border-bottom-color: #888;
       --dropdown-background: #f2f2f2;
       --dropdown-border-color: white #f7f7f7 whitesmoke;
       --dropdown-background-gradient: rgba(0, 0, 0, 0.06);
-      --dropdown--webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
       --dropdown-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
     }
 
@@ -127,13 +121,10 @@
       --dropdown-select-focus-color: #ccc;
       --dropdown-select-color: #aaa;
       --dropdown-select-text-shadow: 0 1px black;
-      --dropdown-select-background: #444;
-      /* Fallback for IE 8 */
       --dropdown-before-after-border-bottom-color: #aaa;
       --dropdown-background: #444;
       --dropdown-border-color: #111111 #0a0a0a black;
       --dropdown-background-gradient: rgba(0, 0, 0, 0.4);
-      --dropdown--webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
       --dropdown-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
     }
 
@@ -143,11 +134,11 @@
 
     html {
       color-scheme: light dark;
+      overflow: hidden;
     }
 
     html,
     body {
-      color: #444;
       font-family: "Inter", Verdana, Arial, sans-serif;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
@@ -157,25 +148,15 @@
       width: 100%;
     }
 
-    html {
-      overflow: hidden;
-    }
-
     body {
-      align-content: stretch;
-      align-items: stretch;
       background: var(--back-color);
       display: flex;
       flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
       touch-action: pan-x pan-y;
     }
 
     /* Header */
-
     .header {
-      align-content: center;
       align-items: stretch;
       background: var(--head-color);
       box-shadow:
@@ -184,16 +165,11 @@
         0 4px 2px -2px rgba(0, 0, 0, 0.2);
       color: var(--head-textcolor);
       display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
       font-size: 20px;
       height: 56px;
-      justify-content: flex-start;
       padding: 16px 16px 0 16px;
       position: fixed;
-      transition: transform 0.233s cubic-bezier(0, 0, 0.21, 1) 0.1s;
       width: 100%;
-      will-change: transform;
       z-index: 1000;
     }
 
@@ -243,8 +219,7 @@
       width: 100%;
     }
 
-    /* Мои */
-
+    /* SVG календарь */
     #background {
       fill: var(--svg-background);
     }
@@ -278,7 +253,7 @@
     }
 
     .e {
-      fill: #ffffff00;
+      fill: transparent;
     }
 
     .day {
@@ -293,18 +268,9 @@
       font-weight: bold;
     }
 
-
-
-
-
-
-
-
-
+    /* Селекты */
     .container {
       margin: 10px auto;
-      /*margin: 80px auto;
-  width: 400px;*/
       text-align: center;
     }
 
@@ -312,32 +278,6 @@
       margin: 0 5px;
       vertical-align: top;
     }
-
-    /* Fix for IE 8 putting the arrows behind the select element. */
-
-    .lt-ie9 .dropdown {
-      z-index: 1;
-    }
-
-    .lt-ie9 .dropdown-select {
-      z-index: -1;
-    }
-
-    .lt-ie9 .dropdown-select:focus {
-      z-index: 3;
-    }
-
-    /* Dirty fix for Firefox adding padding where it shouldn't. */
-
-    @-moz-document url-prefix() {
-      .dropdown-select {
-        padding-left: 6px;
-      }
-    }
-
-
-
-
 
     .dropdown {
       display: inline-block;
@@ -349,11 +289,7 @@
       border: 1px solid;
       border-color: var(--dropdown-border-color);
       border-radius: 3px;
-      background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-      background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-      background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
       background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
-      -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
       box-shadow: var(--dropdown-box-shadow);
     }
 
@@ -367,7 +303,7 @@
       width: 0;
       height: 0;
       border: 4px dashed;
-      border-color: #888888 transparent;
+      border-color: transparent;
       pointer-events: none;
       border-bottom-color: var(--dropdown-before-after-border-bottom-color);
     }
@@ -393,23 +329,18 @@
       font-size: 14px;
       color: var(--dropdown-select-color);
       text-shadow: var(--dropdown-select-text-shadow);
-      background: var(--dropdown-select-background);
-      background: rgba(0, 0, 0, 0) !important;
-      /* "transparent" doesn't work with Opera */
+      background: transparent !important;
       border: 0;
       border-radius: 0;
       -webkit-appearance: none;
+      appearance: none;
     }
 
     .dropdown-select:focus {
       z-index: 3;
       width: 100%;
       color: var(--dropdown-select-focus-color);
-      /*outline: 2px solid #49aff2;
-  outline: 2px solid -webkit-focus-ring-color;
-  outline-offset: -2px;*/
-      outline: 0px;
-      outline-offset: 0px;
+      outline: none;
     }
 
     .dropdown-select>option {
@@ -421,14 +352,6 @@
       cursor: pointer;
     }
 
-
-
-
-
-
-
-
-
     .dropdown_btn {
       display: inline-block;
       position: relative;
@@ -439,11 +362,7 @@
       border: 1px solid;
       border-color: var(--dropdown-border-color);
       border-radius: 3px;
-      background-image: -webkit-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-      background-image: -moz-linear-gradient(top, transparent, var(--dropdown-background-gradient));
-      background-image: -o-linear-gradient(top, transparent, var(--dropdown-background-gradient));
       background-image: linear-gradient(to bottom, transparent, var(--dropdown-background-gradient));
-      -webkit-box-shadow: var(--dropdown--webkit-box-shadow);
       box-shadow: var(--dropdown-box-shadow);
     }
 
@@ -451,23 +370,20 @@
       position: relative;
       width: 130%;
       margin: 0;
-      padding: 0px 8px 0px 0px;
+      padding: 0 8px 0 0;
       height: 28px;
       line-height: 14px;
       font-size: 14px;
       color: var(--dropdown-select-color);
       text-shadow: var(--dropdown-select-text-shadow);
-      background: var(--dropdown-select-background);
-      background: rgba(0, 0, 0, 0) !important;
-      /* "transparent" doesn't work with Opera */
+      background: transparent !important;
       border: 0;
       border-radius: 0;
       -webkit-appearance: none;
+      appearance: none;
     }
 
-
-    /* Add dialog */
-
+    /* Диалог */
     .dialog {
       background: var(--dialog-back-color);
       color: var(--text-color);
@@ -478,10 +394,9 @@
       width: min(75vw, 420px);
       min-width: 280px;
       border: none;
-      transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
       position: fixed;
     }
-    
+
     .dialog a {
       color: var(--link-color);
     }
