@@ -1,5 +1,5 @@
 # Производственный календарь ВТЗ
-[![pages-build-deployment](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![Version](https://img.shields.io/badge/version-1.1.11-white) ![No Ads](https://img.shields.io/badge/No%20Ads-orange)
+[![pages-build-deployment](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/McFev/vtz-calendar/actions/workflows/pages/pages-build-deployment) ![GitHub last commit](https://img.shields.io/github/last-commit/McFev/vtz-calendar) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/McFev/vtz-calendar) ![GitHub repo size](https://img.shields.io/github/repo-size/McFev/vtz-calendar) ![Version](https://img.shields.io/badge/version-1.1.12-white) ![No Ads](https://img.shields.io/badge/No%20Ads-orange)
 
 <img src="https://github.com/user-attachments/assets/ce4ee3e2-5791-4d35-a01e-bd6b14d02286" width=500px alt="Lighthouse Report">
 
