@@ -5,7 +5,7 @@
   "background_color": "#021d27",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "https://mcfev.github.io/vtz-calendar/",
+  "start_url": "./",
   "icons": [
     {
       "src": "images/icons/web-app-manifest-192x192.png",
