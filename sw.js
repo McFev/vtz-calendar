@@ -1,4 +1,4 @@
-const APP_VERSION = '1.1.15';
+const APP_VERSION = '4.1.15';
 const staticCacheName = `static-cache-v${APP_VERSION.split('.').join('_')}`;
 const dynamicCacheName = `dynamic-cache-v${APP_VERSION.split('.').join('_')}`;
 
